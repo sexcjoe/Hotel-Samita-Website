@@ -7,6 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
+        /* FIXED: Set the body background to dark so the white gap disappears */
+        body { background-color: var(--darker); }
+        
         .booking-split { display: flex; flex-wrap: wrap; min-height: 100vh; background: var(--darker); color: var(--white); }
         .booking-half { flex: 1; min-width: 300px; padding: 150px 50px 80px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; }
         
@@ -25,14 +28,8 @@
         .glass-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
         
         .glass-card h2 { 
-            color: var(--gold); 
-            font-size: clamp(1.8rem, 4vw, 2.8rem); 
-            line-height: 1.1;
-            margin-bottom: 30px; 
-            border-bottom: 1px solid rgba(198,168,124,0.3); 
-            padding-bottom: 20px; 
-            text-align: center;
-            word-break: break-word;
+            color: var(--gold); font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.1; margin-bottom: 30px; 
+            border-bottom: 1px solid rgba(198,168,124,0.3); padding-bottom: 20px; text-align: center; word-break: break-word;
         }
         
         .theme-royal .glass-card h2 { font-family: 'Playfair Display', serif; }
@@ -46,6 +43,18 @@
         
         .main-heading { position: absolute; top: 90px; left: 50%; transform: translateX(-50%); z-index: 10; font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--white); text-shadow: 0 4px 20px rgba(0,0,0,0.8); pointer-events: none;}
         .btn-directions { margin-top: 15px; width: 100%; text-align: center; display: block; }
+
+        /* =========================================
+           MOBILE OVERRIDES FOR CONTACT PAGE
+        ========================================= */
+        @media (max-width: 900px) {
+            /* FIXED: Reduced top margin from 120px to 40px so the gap is closed */
+            .main-heading { position: relative; top: 0; transform: none; left: 0; margin: 40px auto 20px; text-align: center; font-size: 2.2rem; padding: 0 20px; }
+            .booking-split { padding-top: 0; }
+            .btn-directions { width: auto; display: inline-block; padding: 12px 25px; font-size: 0.85rem; margin-top: 10px; }
+            .glass-card { text-align: center; }
+            .contact-item { flex-direction: row !important; align-items: center !important; text-align: left !important; }
+        }
     </style>
 </head>
 <body>
@@ -54,7 +63,7 @@
         <img src="The%20Samita%20Hotel%20Chain%20logo.png" alt="Loading" class="transition-logo">
     </div>
 
-    <nav id="luxury-nav" class="luxury-nav scrolled">
+    <nav id="luxury-nav" class="luxury-nav">
         <div class="nav-links left">
             <a href="samita-grand.html" class="stagger-text">The Samita Grand</a>
             <a href="new-samita-grand.html" class="stagger-text">The New Samita Grand</a>
