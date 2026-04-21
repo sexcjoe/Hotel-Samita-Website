@@ -62,14 +62,31 @@ function initLuxuryInteractions() {
         const checkoutInput = document.getElementById('checkout-input');
 
         if (checkinInput && checkoutInput) {
-            const checkoutPicker = flatpickr(checkoutInput, { altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today" });
+            // Set minimum checkout date to tomorrow initially (must be after check-in)
+            const tomorrowDate = new Date();
+            tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+            
+            const checkoutPicker = flatpickr(checkoutInput, { 
+                altInput: true, 
+                altFormat: "F j, Y", 
+                dateFormat: "Y-m-d", 
+                minDate: tomorrowDate,
+                disabledDates: []
+            });
+            
             flatpickr(checkinInput, {
-                altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today",
+                altInput: true, 
+                altFormat: "F j, Y", 
+                dateFormat: "Y-m-d", 
+                minDate: "today",
                 onChange: function(selectedDates, dateStr, instance) {
                     if (selectedDates.length > 0) {
+                        // Set checkout minDate to day after check-in
                         const nextDay = new Date(selectedDates[0]);
                         nextDay.setDate(nextDay.getDate() + 1);
                         checkoutPicker.set('minDate', nextDay);
+                        
+                        // If checkout was already selected to a date on or before check-in, clear it
                         if (checkoutPicker.selectedDates.length > 0 && checkoutPicker.selectedDates[0] <= selectedDates[0]) {
                             checkoutPicker.clear();
                         }
