@@ -71,7 +71,7 @@ bookNowButtons.forEach(button => {
         event.stopPropagation(); 
         
         // Redirect to booking page (replace with your actual booking link)
-        window.location.href = 'booking-page.html'; 
+        window.location.href = 'contact-booking.html'; 
     });
 });
 
