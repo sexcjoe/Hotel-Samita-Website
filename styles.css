@@ -16,15 +16,7 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
-/* FIXED: This prevents wide elements (like tables) from breaking the mobile screen width! */
-html, body { 
-    background-color: var(--cream); color: var(--dark); font-family: var(--font-body); 
-    line-height: 1.7; 
-    max-width: 100vw; 
-    overflow-x: hidden; 
-}
-
+html, body { background-color: var(--cream); color: var(--dark); font-family: var(--font-body); line-height: 1.7; max-width: 100vw; overflow-x: hidden; }
 h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 400; color: var(--darker); }
 a { text-decoration: none; transition: all 0.3s ease; }
 img { max-width: 100%; }
@@ -71,7 +63,6 @@ img { max-width: 100%; }
 .hero-section { position: relative; height: 100vh; width: 100%; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center bottom; }
 .base-bg { z-index: 1; }
-
 .reveal-layer { z-index: 2; opacity: 0; pointer-events: none; transform: scale(1.15) translate(-1%, 3%); transition: opacity 0.6s ease; -webkit-mask-image: radial-gradient(circle var(--m-size, 0px) at var(--m-x, 50%) var(--m-y, 50%), black 20%, transparent 100%); mask-image: radial-gradient(circle var(--m-size, 0px) at var(--m-x, 50%) var(--m-y, 50%), black 20%, transparent 100%); filter: url(#liquid-filter); }
 .reveal-layer.active { opacity: 1; }
 .master-mountain-reveal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: scale(1.15) translate(-1%, 3%); background-size: cover; background-position: center; z-index: 3; pointer-events: none; clip-path: polygon(0% 100%, 15% 100%, 30% 100%, 50% 100%, 75% 100%, 100% 100%, 100% 100%, 0% 100%); }
@@ -135,7 +126,7 @@ img { max-width: 100%; }
 .gold-line.center { margin: 20px auto; }
 .section-hotels { padding: 150px 0 100px; }
 
-/* HOME PAGE - HOTEL SHOWCASE */
+/* HOME PAGE - HOTEL SHOWCASE ALIGNMENT */
 .hotel-showcase { display: flex; flex-direction: column; gap: 80px; margin-top: 50px;}
 .hotel-card-large { display: flex; align-items: center; gap: 50px; background: var(--white); border-radius: 4px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); overflow: hidden;}
 .hotel-card-large.reverse { flex-direction: row-reverse; }
@@ -146,7 +137,7 @@ img { max-width: 100%; }
 .hotel-title-group h3 { font-size: 2.2rem; margin-bottom: 0; color: var(--darker); word-break: break-word;}
 .link-gold { color: var(--gold); text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.85rem; font-weight: 700; display: inline-block; margin-top: 15px; }
 
-/* DISCOVER MANALI */
+/* DISCOVER MANALI - SPLIT MAP/IMAGE LAYOUT */
 .catalogue-container { padding: 100px 0; }
 .catalogue-card { background: #fff; border-radius: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.06); overflow: hidden; margin-bottom: 60px; border: 1px solid rgba(0,0,0,0.03); transition: transform 0.4s ease; }
 .catalogue-card:hover { transform: translateY(-10px); box-shadow: 0 25px 50px rgba(0,0,0,0.1); }
@@ -213,17 +204,9 @@ table.premium-table { width: 100%; min-width: 850px; border-collapse: collapse; 
 ========================================= */
 @media (max-width: 900px) {
     /* 1. Header: Stop overlapping and stack elegantly */
-    .luxury-nav { 
-        position: relative; 
-        background: var(--darker); 
-        padding: 15px 20px; 
-        flex-direction: column; 
-        gap: 15px; 
-    }
+    .luxury-nav { position: relative; background: var(--darker); padding: 15px 20px; flex-direction: column; gap: 15px; }
     .luxury-nav .nav-links { flex-wrap: wrap; justify-content: center; gap: 15px; }
     .luxury-nav .nav-links a { margin: 0; font-size: 0.75rem; text-shadow: none; }
-    
-    /* Push content back up since relative nav handles spacing now */
     .page-content, .hero-content { margin-top: 20px; padding-top: 20px; }
     
     /* 2. Hero & Sub-headers */
@@ -231,8 +214,10 @@ table.premium-table { width: 100%; min-width: 850px; border-collapse: collapse; 
     .hero-content h1 { font-size: 2.5rem; line-height: 1.2; padding: 0 10px; }
     .page-header { height: auto; min-height: 50vh; padding: 60px 10px; }
     .page-content h1 { font-size: 2.5rem; line-height: 1.2; }
-    .b2b-header { padding: 80px 20px 40px; }
-    .b2b-header h1 { font-size: 2.5rem; }
+    
+    /* FIXED: B2B Heading Override */
+    .b2b-header { padding: 100px 15px 40px !important; }
+    .b2b-header h1 { font-size: clamp(2rem, 8vw, 3rem) !important; word-wrap: break-word; line-height: 1.2; }
 
     /* 3. Booking Bar Un-squish */
     .booking-bar { position: relative; bottom: auto; margin-top: 40px; flex-direction: column; width: 100%; padding: 20px; gap: 15px; }
@@ -247,13 +232,17 @@ table.premium-table { width: 100%; min-width: 850px; border-collapse: collapse; 
     .hotel-title-group { flex-direction: column; text-align: center; gap: 10px; }
     .hotel-title-group h3 { font-size: 1.8rem; }
 
-    /* 5. Contact Us Page Un-squish */
-    .booking-split { flex-direction: column; }
+    /* 5. Contact Us Page Un-squish & Layout Fix */
     .booking-half { padding: 40px 15px; width: 100%; min-width: 100%; }
-    .glass-card { padding: 30px 15px; }
-    .contact-item { flex-direction: column; align-items: center; text-align: center; gap: 10px; }
-    .contact-item .icon { margin: 0 auto; }
-    .contact-item p { width: 100%; word-break: break-word; }
+    .glass-card { padding: 30px 20px; }
+    
+    /* FIXED: Keeps icons perfectly left-aligned beside text on mobile! */
+    .contact-item { flex-direction: row; align-items: center; text-align: left; gap: 15px; margin-bottom: 20px; }
+    .contact-item .icon { margin: 0; flex-shrink: 0; width: 40px; height: 40px; font-size: 1rem; }
+    .contact-item p { width: calc(100% - 55px); word-break: break-word; font-size: 0.9rem; }
+    
+    /* Shrinks the Contact Us button */
+    .btn-directions { padding: 12px 20px !important; font-size: 0.8rem !important; display: inline-block !important; width: auto !important; margin: 10px auto 0 !important; }
 
     /* 6. Discover Manali Wrapping Fix */
     .media-split { flex-direction: column; height: auto; }
