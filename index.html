@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Samita Hotel Chain | Luxury in the Himalayas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <div class="transition-overlay active">
+        <img src="The%20Samita%20Hotel%20Chain%20logo.png" alt="Loading" class="transition-logo">
+    </div>
+
+    <nav id="luxury-nav" class="luxury-nav">
+        <div class="nav-links left">
+            <a href="samita-grand.html" class="stagger-text">The Samita Grand</a>
+            <a href="new-samita-grand.html" class="stagger-text">The New Samita Grand</a>
+        </div>
+        <div class="nav-logo">
+            <div class="logo-wrapper-nav">
+                <a href="index.html"><img src="The%20Samita%20Hotel%20Chain%20logo.png" alt="The Samita Hotel Chain" id="nav-logo-img"></a>
+            </div>
+        </div>
+        <div class="nav-links right">
+            <a href="discover-manali.html" class="stagger-text">Discover Manali</a>
+            <a href="b2b-rates.html" class="stagger-text">B2B Rates</a>
+        </div>
+    </nav>
+
+    <header class="hero-section" id="home-hero">
+        <div class="hero-bg base-bg" style="background-image: url('https://cdn-zen.readytotrip.com/t/1024x768/content/97/cf/97cfd708ef6787eea1d5430ea0a6315ec478c4c2.jpeg');"></div>
+        <div class="interactive-reveal" id="reveal-layer" style="background-image: url('https://the-samita-grand-manali.hotelsmanali.net/data/Pics/OriginalPhoto/11245/1124582/1124582529/the-samita-grand-manali-manali-himachal-pradesh-pic-2.JPEG');"></div>
+        <div class="master-mountain-reveal" id="mountain-layer" style="background-image: url('https://the-samita-grand-manali.hotelsmanali.net/data/Pics/OriginalPhoto/11245/1124582/1124582529/the-samita-grand-manali-manali-himachal-pradesh-pic-2.JPEG');"></div>
+        <div id="himalayan-anim-container" class="video-bg"><canvas id="hero-canvas"></canvas></div>
+        
+        <div class="hero-content">
+            <span class="subtitle">ELEVATE YOUR SENSES</span>
+            <br>
+            <h1>A Symphony of Luxury</h1>
+            <br>
+            <a href="#hotels" class="btn-gold stagger-text">Explore Our World</a>
+        </div>
+
+        <div class="booking-bar">
+            <div class="booking-field">
+                <label>Destination</label>
+                <select id="dest-select">
+                    <option>The Samita Grand</option>
+                    <option>The New Samita Grand</option>
+                </select>
+            </div>
+            <div class="booking-field"><label>Check In</label><input type="date" id="checkin-input" placeholder="Select Date"></div>
+            <div class="booking-field"><label>Check Out</label><input type="date" id="checkout-input" placeholder="Select Date"></div>
+            <div class="booking-field">
+                <label>Guests</label>
+                <select id="guests-select">
+                    <option>1 Room, 2 Adults</option>
+                    <option>1 Room, 3 Adults</option>
+                    <option>2 Rooms, 4 Adults</option>
+                    <option>2 Rooms, 6 Adults</option>
+                    <option>Group Booking (7+)</option>
+                </select>
+            </div>
+            <button class="btn-gold-solid" id="home-book-btn">BOOK NOW</button>
+        </div>
+
+        <div class="master-reveal-btn" id="master-reveal">
+            <img src="The%20Samita%20Hotel%20Chain%20logo.png" alt="Reveal">
+        </div>
+    </header>
+
+    <section id="hotels" class="section-hotels pattern-bg-light">
+        <div class="container">
+            <div class="section-heading text-center">
+                <span class="subtitle gold-text">OUR EXCLUSIVE PROPERTIES</span>
+                <h2>Two Distinct Expressions</h2>
+                <div class="gold-line center"></div>
+            </div>
+            
+            <div class="hotel-showcase">
+                <div class="hotel-card-large">
+                    <div class="hotel-img" style="background-image: url('https://the-samita-grand-manali.hotelsmanali.net/data/Pics/OriginalPhoto/11245/1124582/1124582529/the-samita-grand-manali-manali-himachal-pradesh-pic-2.JPEG');"></div>
+                    <div class="hotel-info">
+                        <div class="hotel-title-group">
+                            <img src="The%20Samita%20Grand%20logo.png" alt="The Samita Grand Logo" class="brand-logo">
+                            <h3>The Samita Grand</h3>
+                        </div>
+                        <p>Experience the perfect blend of comfort and heritage in the heart of the mountains. Our flagship property offers warm hospitality, vintage charm, and a serene escape from the everyday.</p>
+                        <a href="samita-grand.html" class="link-gold stagger-text">DISCOVER MORE →</a>
+                    </div>
+                </div>
+
+                <div class="hotel-card-large reverse">
+                    <div class="hotel-img" style="background-image: url('https://cdn.discordapp.com/attachments/1447232794185961553/1496015963647119410/IMG-20260421-WA0002.jpg?ex=69e858f0&is=69e70770&hm=198a1a48eec406b809afabd3453010a3050a003cb65273394aebb73e4680d3da&');"></div>
+                    <div class="hotel-info">
+                        <div class="hotel-title-group">
+                            <img src="The%20New%20Samita%20Grand%20logo.png" alt="The New Samita Grand Logo" class="brand-logo">
+                            <h3>The New Samita Grand</h3>
+                        </div>
+                        <p>Step into modern luxury intertwined with classic mountain charm. Designed for the discerning traveler, our newest property elevates your stay with premium amenities and breathtaking panoramas.</p>
+                        <a href="new-samita-grand.html" class="link-gold stagger-text">DISCOVER MORE →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="luxury-footer pattern-overlay-3">
+        <div class="footer-content container" style="position: relative; z-index: 2;">
+            <div class="footer-brand">
+                <div class="logo-wrapper-footer">
+                    <img src="The%20Samita%20Hotel%20Chain%20logo.png" alt="The Samita Hotel Chain" class="footer-logo">
+                </div>
+                <p>Experience the height of hospitality.</p>
+            </div>
+            <div class="footer-links-grid">
+                <div class="link-col">
+                    <h4>Our Hotels</h4>
+                    <a href="samita-grand.html" class="stagger-text">The Samita Grand</a>
+                    <a href="new-samita-grand.html" class="stagger-text">The New Samita Grand</a>
+                </div>
+                <div class="link-col">
+                    <h4>Experiences</h4>
+                    <a href="discover-manali.html" class="stagger-text">Tourist Guide</a>
+                </div>
+                <div class="link-col">
+                    <h4>Partners</h4>
+                    <a href="b2b-rates.html" class="stagger-text">B2B Rates</a>
+                    <a href="contact-booking.html" class="stagger-text">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <svg style="visibility: hidden; position: absolute;" width="0" height="0">
+        <filter id="liquid-filter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 35 -15" result="liquid" />
+            <feComposite in="SourceGraphic" in2="liquid" operator="atop"/>
+        </filter>
+    </svg>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="script.js"></script>
+</body>
+</html>

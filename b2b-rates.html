@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B2B Rates | The Samita Hotel Chain</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        .b2b-header { padding: 150px 20px 80px; text-align: center; background: #111; color: #fff; position: relative; }
+        .b2b-header::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.15; background-image: repeating-radial-gradient( circle at 0 0, transparent 0, var(--darker) 15px, transparent 15px, var(--gold) 16px, transparent 16px, transparent 30px ); z-index: 0; }
+        .b2b-header h1 { font-size: 3.5rem; color: #fff; position: relative; z-index: 1; margin-bottom: 10px; }
+        .b2b-header p { position: relative; z-index: 1; font-size: 1.2rem; color: #ccc; }
+        
+        .b2b-section { background: #fff; padding: 50px; border-radius: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.05); margin: 60px auto; max-width: 1000px; }
+        .table-title { border-left: 4px solid var(--gold); padding-left: 20px; margin-bottom: 30px; font-size: 2rem; color: var(--darker); }
+        .b2b-table-wrapper { overflow-x: auto; border-radius: 4px; border: 1px solid #eee; }
+
+        table.premium-table { width: 100%; border-collapse: collapse; min-width: 800px; font-size: 1.05rem; background: #fff; }
+        table.premium-table th, table.premium-table td { padding: 18px 15px; text-align: center; }
+        table.premium-table thead tr:first-child th { background-color: var(--darker); color: #fff; font-size: 1.1rem; border-right: 1px solid rgba(255,255,255,0.1); padding: 20px 15px; }
+        table.premium-table thead tr:first-child th:last-child { border-right: none; }
+        table.premium-table thead th small { display: block; font-weight: 400; font-size: 0.8em; color: var(--gold); margin-top: 4px; }
+        table.premium-table thead tr:nth-child(2) th { background-color: var(--cream); color: var(--dark); font-weight: 600; font-size: 0.95rem; border-bottom: 2px solid var(--gold); text-transform: uppercase; letter-spacing: 1px; }
+        table.premium-table tbody tr { border-bottom: 1px solid #eee; transition: all 0.3s ease; }
+        table.premium-table tbody tr:last-child { border-bottom: none; }
+        table.premium-table tbody tr:hover { background-color: var(--cream); }
+        table.premium-table td:first-child { text-align: left; font-weight: bold; color: var(--darker); font-family: var(--font-heading); font-size: 1.2rem; }
+        .price { font-weight: bold; color: #555; }
+    </style>
+</head>
+<body>
+
+    <div class="transition-overlay active">
+        <img src="The%20Samita%20Hotel%20Chain%20logo.png" alt="Loading" class="transition-logo">
+    </div>
+
+    <nav id="luxury-nav" class="luxury-nav">
+        <div class="nav-links left">
+            <a href="samita-grand.html" class="stagger-text">The Samita Grand</a>
+            <a href="new-samita-grand.html" class="stagger-text">The New Samita Grand</a>
+        </div>
+        <div class="nav-logo">
+            <div class="logo-wrapper-nav">
+                <a href="index.html"><img src="The%20Samita%20Hotel%20Chain%20logo.png" alt="The Samita Hotel Chain" id="nav-logo-img"></a>
+            </div>
+        </div>
+        <div class="nav-links right">
+            <a href="discover-manali.html" class="stagger-text">Discover Manali</a>
+            <a href="b2b-rates.html" style="color: var(--gold);" class="stagger-text">B2B Rates</a>
+        </div>
+    </nav>
+
+    <header class="b2b-header">
+        <h1 class="stagger-text">B2B Partner Rates</h1>
+        <p>Exclusive 2026-2027 tariffs for our trusted travel partners and agents.</p>
+    </header>
+
+    <div class="container" style="padding-bottom: 80px;">
+        
+        <section class="b2b-section">
+            <h2 class="table-title">The Samita Grand</h2>
+            <div class="b2b-table-wrapper">
+                <table class="premium-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="text-align: left; vertical-align: middle;">Room Category</th>
+                            <th colspan="2">EP Plan<br><small>(Room Only)</small></th>
+                            <th colspan="2">CP Plan<br><small>(Includes Breakfast)</small></th>
+                            <th colspan="2">MAP Plan<br><small>(Includes Breakfast & Dinner)</small></th>
+                        </tr>
+                        <tr>
+                            <th>Off-Season</th><th>Season</th>
+                            <th>Off-Season</th><th>Season</th>
+                            <th>Off-Season</th><th>Season</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Hill View Suite</td>
+                            <td class="price">₹2,500</td><td class="price">₹4,000</td>
+                            <td class="price">₹2,800</td><td class="price">₹4,300</td>
+                            <td class="price">₹3,400</td><td class="price">₹4,900</td>
+                        </tr>
+                        <tr>
+                            <td>Family Suite</td>
+                            <td class="price">₹4,000</td><td class="price">₹6,000</td>
+                            <td class="price">₹4,500</td><td class="price">₹6,500</td>
+                            <td class="price">₹5,500</td><td class="price">₹7,500</td>
+                        </tr>
+                        <tr>
+                            <td>Deluxe Suite</td>
+                            <td class="price">₹3,200</td><td class="price">₹5,000</td>
+                            <td class="price">₹3,500</td><td class="price">₹5,300</td>
+                            <td class="price">₹4,100</td><td class="price">₹5,900</td>
+                        </tr>
+                        <tr>
+                            <td>Premium Suite</td>
+                            <td class="price">₹4,500</td><td class="price">₹6,500</td>
+                            <td class="price">₹4,800</td><td class="price">₹6,800</td>
+                            <td class="price">₹5,400</td><td class="price">₹7,400</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="b2b-section" style="margin-top: 0;">
+            <h2 class="table-title">The New Samita Grand</h2>
+            <div class="b2b-table-wrapper">
+                <table class="premium-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="text-align: left; vertical-align: middle;">Room Category</th>
+                            <th colspan="2">EP Plan<br><small>(Room Only)</small></th>
+                            <th colspan="2">CP Plan<br><small>(Includes Breakfast)</small></th>
+                            <th colspan="2">MAP Plan<br><small>(Includes Breakfast & Dinner)</small></th>
+                        </tr>
+                        <tr>
+                            <th>Off-Season</th><th>Season</th>
+                            <th>Off-Season</th><th>Season</th>
+                            <th>Off-Season</th><th>Season</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Deluxe Suite</td>
+                            <td class="price">₹3,500</td><td class="price">₹5,000</td>
+                            <td class="price">₹3,800</td><td class="price">₹5,300</td>
+                            <td class="price">₹4,400</td><td class="price">₹5,900</td>
+                        </tr>
+                        <tr>
+                            <td>Triplet Suite</td>
+                            <td class="price">₹4,500</td><td class="price">₹6,500</td>
+                            <td class="price">₹4,900</td><td class="price">₹6,900</td>
+                            <td class="price">₹5,700</td><td class="price">₹7,700</td>
+                        </tr>
+                        <tr>
+                            <td>Premium Suite</td>
+                            <td class="price">₹5,500</td><td class="price">₹8,000</td>
+                            <td class="price">₹5,800</td><td class="price">₹8,300</td>
+                            <td class="price">₹6,400</td><td class="price">₹8,900</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <footer class="luxury-footer pattern-overlay-3">
+        <div class="footer-content container" style="position: relative; z-index: 2;">
+            <div class="footer-brand">
+                <div class="logo-wrapper-footer">
+                    <a href="index.html"><img src="The%20Samita%20Hotel%20Chain%20logo.png" alt="The Samita Hotel Chain" class="footer-logo"></a>
+                </div>
+                <p>Experience the height of hospitality.</p>
+            </div>
+            <div class="footer-links-grid">
+                <div class="link-col">
+                    <h4 class="stagger-text">Our Hotels</h4>
+                    <a href="samita-grand.html" class="stagger-text">The Samita Grand</a>
+                    <a href="new-samita-grand.html" class="stagger-text">The New Samita Grand</a>
+                </div>
+                <div class="link-col">
+                    <h4 class="stagger-text">Experiences</h4>
+                    <a href="discover-manali.html" class="stagger-text">Tourist Guide</a>
+                </div>
+                <div class="link-col">
+                    <h4 class="stagger-text">Partners</h4>
+                    <a href="b2b-rates.html" class="stagger-text">B2B Rates</a>
+                    <a href="contact-booking.html" class="stagger-text">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

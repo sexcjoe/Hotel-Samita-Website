@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourist Guide | The Samita Hotel Chain</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .page-header { height: 60vh; min-height: 400px; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; color: #fff; background: #111; }
+        .page-header-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://images.unsplash.com/photo-1712388430474-ace0c16051e2?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-size: cover; background-position: center; z-index: 0; opacity: 0.65; }
+        .page-content { position: relative; z-index: 3; padding: 0 20px; }
+        .page-content h1 { font-size: 4rem; color: #fff; text-shadow: 0 4px 15px rgba(0,0,0,0.5); margin-bottom: 10px; }
+    </style>
+</head>
+<body class="pattern-bg-light">
+
+    <div class="transition-overlay active">
+        <img src="The%20Samita%20Hotel%20Chain%20logo.png" alt="Loading" class="transition-logo">
+    </div>
+
+    <nav id="luxury-nav" class="luxury-nav">
+        <div class="nav-links left">
+            <a href="samita-grand.html" class="stagger-text">The Samita Grand</a>
+            <a href="new-samita-grand.html" class="stagger-text">The New Samita Grand</a>
+        </div>
+        <div class="nav-logo">
+            <div class="logo-wrapper-nav">
+                <a href="index.html"><img src="The%20Samita%20Hotel%20Chain%20logo.png" alt="The Samita Hotel Chain" id="nav-logo-img"></a>
+            </div>
+        </div>
+        <div class="nav-links right">
+            <a href="discover-manali.html" style="color: var(--gold);" class="stagger-text">Discover Manali</a>
+            <a href="b2b-rates.html" class="stagger-text">B2B Rates</a>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="page-header-bg"></div>
+        <div class="overlay pattern-overlay-1" style="z-index: 1;"></div>
+        <div class="page-content">
+            <span class="subtitle">CURATED EXPERIENCES</span>
+            <h1>Discover Manali</h1>
+            <div class="gold-line center"></div>
+        </div>
+    </header>
+
+    <div class="container catalogue-container">
+
+        <div class="catalogue-card">
+            <div class="media-split">
+                <iframe class="map-box-half" src="https://maps.google.com/maps?q=Mall+Road,+Manali&output=embed" allowfullscreen="" loading="lazy"></iframe>
+                <div class="img-box-half" style="background-image: url('https://discoverkullumanali.in/wp-content/uploads/2020/01/Aerial-view-of-mall-road-of-Manali-town.jpg');"></div>
+            </div>
+            <div class="info-box">
+                <div class="info-header">
+                    <a href="https://en.wikipedia.org/wiki/Mall_Road,_Manali" target="_blank" style="text-decoration:none;">
+                        <h3 class="stagger-text">1. Mall Road</h3>
+                    </a>
+                    <div class="catalogue-meta">📍 1.0 KM | Walking / Auto</div>
+                </div>
+                <p>The bustling heart of Manali. Experience the vibrant pulse of the town, perfect for shopping for local handicrafts, woolens, and souvenirs.</p>
+            </div>
+        </div>
+
+        <div class="catalogue-card">
+            <div class="media-split">
+                <iframe class="map-box-half" src="https://maps.google.com/maps?q=Hadimba+Devi+Temple,+Manali&output=embed" allowfullscreen="" loading="lazy"></iframe>
+                <div class="img-box-half" style="background-image: url('https://www.bookmarkresorts.com/wp-content/uploads/2024/09/Hadimba-Devi-Temple.jpg');"></div>
+            </div>
+            <div class="info-box">
+                <div class="info-header">
+                    <a href="https://en.wikipedia.org/wiki/Hidimba_Devi_Temple" target="_blank" style="text-decoration:none;">
+                        <h3 class="stagger-text">2. Hadimba Devi Temple</h3>
+                    </a>
+                    <div class="catalogue-meta">📍 2.5 KM | Local Cab / Auto</div>
+                </div>
+                <p>An architectural and historical marvel. Built in 1553, this unique four-tiered pagoda-style temple is dedicated to Goddess Hadimba.</p>
+            </div>
+        </div>
+
+        <div class="catalogue-card">
+            <div class="media-split">
+                <iframe class="map-box-half" src="https://maps.google.com/maps?q=Solang+Valley,+Manali&output=embed" allowfullscreen="" loading="lazy"></iframe>
+                <div class="img-box-half" style="background-image: url('https://seawatersports.com/images/activies/cable-car-ropeway-in-manali.jpg');"></div>
+            </div>
+            <div class="info-box">
+                <div class="info-header">
+                    <a href="https://en.wikipedia.org/wiki/Solang_Valley" target="_blank" style="text-decoration:none;">
+                        <h3 class="stagger-text">3. Solang Valley</h3>
+                    </a>
+                    <div class="catalogue-meta">📍 14 KM | Day-Trip Cab</div>
+                </div>
+                <p>The adventure and sports capital of Himachal. Solang is famous for unparalleled adventure activities like paragliding, zorbing, and skiing.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="luxury-footer pattern-overlay-3">
+        <div class="footer-content container" style="position: relative; z-index: 2;">
+            <div class="footer-brand">
+                <div class="logo-wrapper-footer">
+                    <a href="index.html"><img src="The%20Samita%20Hotel%20Chain%20logo.png" alt="The Samita Hotel Chain" class="footer-logo"></a>
+                </div>
+            </div>
+            <div class="footer-links-grid">
+                <div class="link-col">
+                    <h4>Our Hotels</h4>
+                    <a href="samita-grand.html" class="stagger-text">The Samita Grand</a>
+                    <a href="new-samita-grand.html" class="stagger-text">The New Samita Grand</a>
+                </div>
+                <div class="link-col">
+                    <h4>Experiences</h4>
+                    <a href="discover-manali.html" class="stagger-text">Tourist Guide</a>
+                </div>
+                <div class="link-col">
+                    <h4>Partners</h4>
+                    <a href="b2b-rates.html" class="stagger-text">B2B Rates</a>
+                    <a href="contact-booking.html" class="stagger-text">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
