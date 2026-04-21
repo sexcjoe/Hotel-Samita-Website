@@ -4,8 +4,12 @@
 function initLuxuryInteractions() {
     const overlay = document.querySelector('.transition-overlay');
     
+    // Remove overlay with immediate fallback
     if(overlay) {
-        setTimeout(() => { overlay.classList.remove('active'); }, 100);
+        setTimeout(() => { 
+            overlay.classList.remove('active');
+            console.log('Overlay removed');
+        }, 100);
     }
 
     const links = document.querySelectorAll('a[href]:not([href^="#"]):not([href^="mailto"]):not([href^="tel"]):not([target="_blank"])');
@@ -120,172 +124,59 @@ function initLuxuryInteractions() {
             }
         });
     }
+
+    // ==========================================
+    // 5. MODAL (ROOM EXPANSION) LOGIC
+    // ==========================================
+    const roomCards = document.querySelectorAll('.room-card');
+    const closeButtons = document.querySelectorAll('.close-modal');
+    const modals = document.querySelectorAll('.modal-overlay');
+
+    roomCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            if(e.target.classList.contains('btn-book-now') || e.target.tagName.toLowerCase() === 'a') return; 
+            const modalId = this.getAttribute('data-modal');
+            const targetModal = document.getElementById(modalId);
+            if (targetModal) {
+                targetModal.classList.add('active');
+                document.body.style.overflow = 'hidden'; 
+            }
+        });
+    });
+
+    closeButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.closest('.modal-overlay').classList.remove('active');
+            document.body.style.overflow = 'auto'; 
+        });
+    });
+
+    modals.forEach(modal => {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    });
+
+    // ==========================================
+    // 6. LUXURY NAVBAR SCROLL EFFECT
+    // ==========================================
+    const navbar = document.getElementById('luxury-nav');
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) { navbar.classList.add('scrolled'); } else { navbar.classList.remove('scrolled'); }
+        });
+    }
 }
 
-// Ensure interactions load reliably
+// Ensure interactions load reliably - call only once
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initLuxuryInteractions);
 } else {
     initLuxuryInteractions();
 }
-
-// ==========================================
-// 5. MODAL (ROOM EXPANSION) LOGIC
-// ==========================================
-const roomCards = document.querySelectorAll('.room-card');
-const closeButtons = document.querySelectorAll('.close-modal');
-const modals = document.querySelectorAll('.modal-overlay');
-
-roomCards.forEach(card => {
-    card.addEventListener('click', function(e) {
-        if(e.target.classList.contains('btn-book-now') || e.target.tagName.toLowerCase() === 'a') return; 
-        const modalId = this.getAttribute('data-modal');
-        const targetModal = document.getElementById(modalId);
-        if (targetModal) {
-            targetModal.classList.add('active');
-            document.body.style.overflow = 'hidden'; 
-        }
-    });
-});
-
-closeButtons.forEach(btn => {
-    btn.addEventListener('click', function() {
-        this.closest('.modal-overlay').classList.remove('active');
-        document.body.style.overflow = 'auto'; 
-    });
-});
-
-modals.forEach(modal => {
-    modal.addEventListener('click', function(e) {
-        if (e.target === this) {
-            this.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-    });
-});
-
-// ==========================================
-// 6. LIQUID CURSOR & MOUNTAIN REVEAL
-// ==========================================
-const hero = document.getElementById('home-hero');
-const layer = document.getElementById('reveal-layer');
-const mountainLayer = document.getElementById('mountain-layer');
-const mBtn = document.getElementById('master-reveal');
-window.isSnowFlurry = false; 
-
-if (hero && layer && mountainLayer && mBtn) {
-    let targetX = 0, targetY = 0, currentX = 0, currentY = 0, targetSize = 0, currentSize = 0, timer, isFull = false;
-
-    mBtn.addEventListener('mouseenter', () => { 
-        isFull = true; mountainLayer.classList.remove('closing'); mountainLayer.classList.add('active'); window.isSnowFlurry = true; 
-    });
-    
-    mBtn.addEventListener('mouseleave', () => { 
-        isFull = false; mountainLayer.classList.remove('active'); mountainLayer.classList.add('closing'); window.isSnowFlurry = false; 
-    });
-
-    hero.addEventListener('mousemove', (e) => {
-        targetX = e.clientX; targetY = e.clientY;
-        if(!isFull) { layer.classList.add('active'); targetSize = 200; }
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            targetSize = 300; 
-            setTimeout(() => { if(!isFull) { layer.classList.remove('active'); targetSize = 0; } }, 800);
-        }, 100);
-    });
-
-    function updateLiquid() {
-        currentX += (targetX - currentX) * 0.1; currentY += (targetY - currentY) * 0.1; currentSize += (targetSize - currentSize) * 0.05;
-        layer.style.setProperty('--m-x', currentX + 'px'); layer.style.setProperty('--m-y', currentY + 'px'); layer.style.setProperty('--m-size', currentSize + 'px');
-        requestAnimationFrame(updateLiquid);
-    }
-    updateLiquid();
-}
-
-// ==========================================
-// 7. CANVAS SNOWFALL ANIMATION
-// ==========================================
-const canvas = document.getElementById('hero-canvas');
-if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    class Particle {
-        constructor() {
-            this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.size = Math.random() * 2 + 0.5;
-            this.speedX = (Math.random() - 0.5) * 0.5; this.baseSpeedY = Math.random() * 1 + 0.2; 
-            this.color = Math.random() > 0.8 ? '#C6A87C' : '#FFFFFF'; this.opacity = Math.random() * 0.8 + 0.2;
-        }
-        update() {
-            if (window.isSnowFlurry) { this.y += this.baseSpeedY * 5; this.x += this.speedX + (Math.sin(this.y * 0.02) * 3); } 
-            else { this.y += this.baseSpeedY; this.x += this.speedX; }
-            if (this.y > canvas.height) this.y = 0; if (this.x > canvas.width) this.x = 0; if (this.x < 0) this.x = canvas.width;
-        }
-        draw() {
-            ctx.globalAlpha = this.opacity; ctx.fillStyle = this.color;
-            ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-        }
-    }
-    function init() { particles = []; for (let i = 0; i < 150; i++) particles.push(new Particle()); }
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => { p.update(); p.draw(); });
-        requestAnimationFrame(animate);
-    }
-    window.addEventListener('resize', resize); resize(); init(); animate();
-}
-
-// Ensure interactions load reliably
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLuxuryInteractions);
-} else {
-    initLuxuryInteractions();
-}
-
-// ==========================================
-// 4. LUXURY NAVBAR SCROLL EFFECT
-// ==========================================
-const navbar = document.getElementById('luxury-nav');
-if (navbar) {
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) { navbar.classList.add('scrolled'); } else { navbar.classList.remove('scrolled'); }
-    });
-}
-
-// ==========================================
-// 5. MODAL (ROOM EXPANSION) LOGIC
-// ==========================================
-const roomCards = document.querySelectorAll('.room-card');
-const closeButtons = document.querySelectorAll('.close-modal');
-const modals = document.querySelectorAll('.modal-overlay');
-
-roomCards.forEach(card => {
-    card.addEventListener('click', function(e) {
-        if(e.target.classList.contains('btn-book-now') || e.target.tagName.toLowerCase() === 'a') return; 
-        const modalId = this.getAttribute('data-modal');
-        const targetModal = document.getElementById(modalId);
-        if (targetModal) {
-            targetModal.classList.add('active');
-            document.body.style.overflow = 'hidden'; 
-        }
-    });
-});
-
-closeButtons.forEach(btn => {
-    btn.addEventListener('click', function() {
-        this.closest('.modal-overlay').classList.remove('active');
-        document.body.style.overflow = 'auto'; 
-    });
-});
-
-modals.forEach(modal => {
-    modal.addEventListener('click', function(e) {
-        if (e.target === this) {
-            this.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-    });
-});
 
 // ==========================================
 // 6. LIQUID CURSOR & MOUNTAIN REVEAL
