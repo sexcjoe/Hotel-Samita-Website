@@ -10,7 +10,7 @@
 </head>
 <body>
     
-    <div class="transition-overlay">
+    <div class="transition-overlay active">
         <img src="The%20Samita%20Hotel%20Chain%20logo.png" alt="Loading" class="transition-logo">
     </div>
 
@@ -44,27 +44,45 @@
             <a href="#hotels" class="btn-gold stagger-text">Explore Our World</a>
         </div>
 
-        <div class="booking-bar">
-            <div class="booking-field">
-                <label>Destination</label>
-                <select id="dest-select">
-                    <option>The Samita Grand</option>
-                    <option>The New Samita Grand</option>
-                </select>
+        <div class="booking-bar collapsed" id="main-booking-bar">
+            
+            <div class="booking-step step-1" style="display: none;">
+                <div class="booking-field">
+                    <label>Destination</label>
+                    <select id="dest-select">
+                        <option>The Samita Grand</option>
+                        <option>The New Samita Grand</option>
+                    </select>
+                </div>
+                <div class="booking-field"><label>Check In</label><input type="date" id="checkin-input" placeholder="Select Date"></div>
+                <div class="booking-field"><label>Check Out</label><input type="date" id="checkout-input" placeholder="Select Date"></div>
+                <div class="booking-field">
+                    <label>Guests</label>
+                    <select id="guests-select">
+                        <option>1 Room, 2 Adults</option>
+                        <option>1 Room, 3 Adults</option>
+                        <option>2 Rooms, 4 Adults</option>
+                        <option>2 Rooms, 6 Adults</option>
+                        <option>Group Booking (7+)</option>
+                    </select>
+                </div>
             </div>
-            <div class="booking-field"><label>Check In</label><input type="date" id="checkin-input" placeholder="Select Date"></div>
-            <div class="booking-field"><label>Check Out</label><input type="date" id="checkout-input" placeholder="Select Date"></div>
-            <div class="booking-field">
-                <label>Guests</label>
-                <select id="guests-select">
-                    <option>1 Room, 2 Adults</option>
-                    <option>1 Room, 3 Adults</option>
-                    <option>2 Rooms, 4 Adults</option>
-                    <option>2 Rooms, 6 Adults</option>
-                    <option>Group Booking (7+)</option>
-                </select>
+
+            <div class="booking-step step-2" style="display: none;">
+                <div class="booking-field" style="flex: 1.5;">
+                    <label>Full Name</label>
+                    <input type="text" id="guest-name" placeholder="Enter full name" autocomplete="off">
+                </div>
+                <div class="booking-field" style="flex: 1.5;">
+                    <label>Phone Number</label>
+                    <div class="phone-input-group">
+                        <span class="phone-prefix">+91</span>
+                        <input type="tel" id="guest-phone" placeholder="Enter 10 digits" maxlength="10" autocomplete="off">
+                    </div>
+                </div>
             </div>
-            <button class="btn-gold-solid" id="home-book-btn">BOOK NOW</button>
+
+            <button class="btn-gold-solid" id="dynamic-book-btn">MAKE RESERVATION</button>
         </div>
 
         <div class="master-reveal-btn" id="master-reveal">
@@ -94,7 +112,7 @@
                 </div>
 
                 <div class="hotel-card-large reverse">
-                    <div class="hotel-img" style="background-image: url('https://cdn.discordapp.com/attachments/1447232794185961553/1496015963647119410/IMG-20260421-WA0002.jpg?ex=69e858f0&is=69e70770&hm=198a1a48eec406b809afabd3453010a3050a003cb65273394aebb73e4680d3da&');"></div>
+                    <div class="hotel-img" style="background-image: url('https://drive.google.com/uc?export=view&id=1aBZ1TcIFL651WYFx1PaLy46zEIFUJ8dM');"></div>
                     <div class="hotel-info">
                         <div class="hotel-title-group">
                             <img src="The%20New%20Samita%20Grand%20logo.png" alt="The New Samita Grand Logo" class="brand-logo">

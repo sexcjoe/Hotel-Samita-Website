@@ -1,13 +1,11 @@
 // ==========================================
-// 1. PAGE TRANSITION, STAGGER TEXT & BOOKING
+// 1. PAGE TRANSITION & DYNAMIC BOOKING ENGINE
 // ==========================================
 function initLuxuryInteractions() {
     const overlay = document.querySelector('.transition-overlay');
-    
-    if(overlay) {
-        setTimeout(() => { overlay.classList.remove('active'); }, 100);
-    }
+    if(overlay) { setTimeout(() => { overlay.classList.remove('active'); }, 100); }
 
+    // Normal Links
     const links = document.querySelectorAll('a[href]:not([href^="#"]):not([href^="mailto"]):not([href^="tel"]):not([target="_blank"])');
     links.forEach(link => {
         link.addEventListener('click', function(e) {
@@ -18,30 +16,96 @@ function initLuxuryInteractions() {
         });
     });
 
-    // Automated Email Booking Engine (Homepage)
-    const homeBookBtn = document.getElementById('home-book-btn');
-    if (homeBookBtn) {
-        homeBookBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            const dest = document.getElementById('dest-select').value;
-            const checkIn = document.getElementById('checkin-input').value || "Date not selected";
-            const checkOut = document.getElementById('checkout-input').value || "Date not selected";
-            const guestsRooms = document.getElementById('guests-select').value;
-            
-            const email = dest === "The Samita Grand" ? "hotelsamitagrand@gmail.com" : "newsamitagrand@gmail.com";
-            
-            const body = `Hello\n\nI want to book a stay at ${dest} for the following dates :\n${checkIn} to ${checkOut}\n${guestsRooms}\n\nPlease do let me know if the stay can be arranged.`;
-            
-            window.location.href = `mailto:${email}?subject=Booking Request for ${dest}&body=${encodeURIComponent(body)}`;
-        });
+    // ------------------------------------------
+    // DYNAMIC MULTI-STEP BOOKING LOGIC
+    // ------------------------------------------
+    const bar = document.getElementById('main-booking-bar');
+    const dynamicBtn = document.getElementById('dynamic-book-btn');
+    const step1 = document.querySelector('.step-1');
+    const step2 = document.querySelector('.step-2');
+    
+    let bookingState = 0; // 0: Collapsed, 1: Dates, 2: Info
+
+    // Validation Functions
+    function validateStep1() {
+        const ci = document.getElementById('checkin-input');
+        const co = document.getElementById('checkout-input');
+        if (ci && co && bookingState === 1) {
+            dynamicBtn.disabled = !(ci.value !== "" && co.value !== "");
+        }
     }
 
-    // Generic Book Now redirects (for sub-pages)
-    const bookNowButtons = document.querySelectorAll('.btn-gold-solid');
-    bookNowButtons.forEach(btn => {
-        if(btn.closest('form') || btn.closest('.master-reveal-btn') || btn.classList.contains('get-directions') || btn.id === 'home-book-btn') return;
-        
+    function validateStep2() {
+        const name = document.getElementById('guest-name');
+        const phone = document.getElementById('guest-phone');
+        if (name && phone && bookingState === 2) {
+            const cleanPhone = phone.value.replace(/\D/g, ''); // keep only numbers
+            dynamicBtn.disabled = !(name.value.trim().length > 0 && cleanPhone.length >= 10);
+        }
+    }
+
+    if (dynamicBtn && bar) {
+        dynamicBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (bookingState === 0) {
+                // Expand to Step 1
+                bar.classList.remove('collapsed');
+                bar.classList.add('expanded');
+                step1.style.display = 'flex';
+                dynamicBtn.innerText = 'NEXT';
+                dynamicBtn.disabled = true;
+                bookingState = 1;
+                validateStep1(); 
+            } 
+            else if (bookingState === 1) {
+                // Move to Step 2
+                step1.style.display = 'none';
+                step2.style.display = 'flex';
+                dynamicBtn.innerText = 'MAKE RESERVATION';
+                dynamicBtn.disabled = true;
+                bookingState = 2;
+                validateStep2();
+            } 
+            else if (bookingState === 2) {
+                // Submit Form via Email
+                const dest = document.getElementById('dest-select').value;
+                const checkIn = document.getElementById('checkin-input').value;
+                const checkOut = document.getElementById('checkout-input').value;
+                const guests = document.getElementById('guests-select').value;
+                const name = document.getElementById('guest-name').value;
+                const phone = "+91 " + document.getElementById('guest-phone').value;
+
+                const email = dest === "The Samita Grand" ? "hotelsamitagrand@gmail.com" : "newsamitagrand@gmail.com";
+                const body = `Hello\n\nI want to book a stay at ${dest} for the following dates :\n${checkIn} to ${checkOut}\n${guests}\n\nGuest Details:\nName: ${name}\nPhone: ${phone}\n\nPlease do let me know if the stay can be arranged.`;
+                
+                window.location.href = `mailto:${email}?subject=Booking Request for ${dest}&body=${encodeURIComponent(body)}`;
+                
+                // Optional: Flash transition overlay to confirm action
+                if(overlay) {
+                    overlay.classList.add('active');
+                    setTimeout(() => { overlay.classList.remove('active'); }, 1500);
+                }
+            }
+        });
+
+        // Input listeners for Step 2 validation
+        const nameInput = document.getElementById('guest-name');
+        const phoneInput = document.getElementById('guest-phone');
+        if (nameInput) nameInput.addEventListener('input', validateStep2);
+        if (phoneInput) {
+            phoneInput.addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/\D/g, '').slice(0,10); // Force max 10 numeric digits
+                validateStep2();
+            });
+        }
+    }
+
+    // Sub-page regular book buttons redirect to contact page
+    const genericBookButtons = document.querySelectorAll('.btn-gold-solid');
+    genericBookButtons.forEach(btn => {
+        if(btn.id === 'dynamic-book-btn' || btn.classList.contains('get-directions')) return;
         btn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation(); 
@@ -59,18 +123,11 @@ function initLuxuryInteractions() {
 
         if (checkinInput && checkoutInput) {
             const checkoutPicker = flatpickr(checkoutInput, { 
-                altInput: true, 
-                altFormat: "F j, Y", 
-                dateFormat: "Y-m-d", 
-                minDate: "today",
-                disableMobile: "true" /* FIXED: Forces custom calendar on iPhone */
+                altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today", disableMobile: "true",
+                onChange: function() { if (typeof validateStep1 === 'function') validateStep1(); }
             });
             flatpickr(checkinInput, {
-                altInput: true, 
-                altFormat: "F j, Y", 
-                dateFormat: "Y-m-d", 
-                minDate: "today",
-                disableMobile: "true", /* FIXED: Forces custom calendar on iPhone */
+                altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today", disableMobile: "true",
                 onChange: function(selectedDates, dateStr, instance) {
                     if (selectedDates.length > 0) {
                         const nextDay = new Date(selectedDates[0]);
@@ -80,16 +137,11 @@ function initLuxuryInteractions() {
                             checkoutPicker.clear();
                         }
                     }
+                    if (typeof validateStep1 === 'function') validateStep1();
                 }
             });
         } else {
-            flatpickr("input[type=date]", { 
-                altInput: true, 
-                altFormat: "F j, Y", 
-                dateFormat: "Y-m-d", 
-                minDate: "today",
-                disableMobile: "true" /* FIXED: Forces custom calendar on iPhone */
-            });
+            flatpickr("input[type=date]", { altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today", disableMobile: "true" });
         }
     }
 
@@ -124,16 +176,10 @@ function initLuxuryInteractions() {
         scrollTopBtn.innerHTML = '↑';
         document.body.appendChild(scrollTopBtn);
 
-        scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
+        scrollTopBtn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                scrollTopBtn.classList.add('show');
-            } else {
-                scrollTopBtn.classList.remove('show');
-            }
+            if (window.scrollY > 300) { scrollTopBtn.classList.add('show'); } 
+            else { scrollTopBtn.classList.remove('show'); }
         });
     }
 }
