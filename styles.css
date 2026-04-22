@@ -16,9 +16,7 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
-/* FIXED: Removed the top padding so the white bar disappears */
-html, body { background-color: var(--cream); color: var(--dark); font-family: var(--font-body); line-height: 1.7; width: 100%; max-width: 100vw; overflow-x: hidden; padding-top: 0 !important; }
+html, body { background-color: var(--cream); color: var(--dark); font-family: var(--font-body); line-height: 1.7; width: 100%; max-width: 100vw; overflow-x: hidden; padding: 0 !important; margin: 0 !important; }
 h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 400; color: var(--darker); }
 a { text-decoration: none; transition: all 0.3s ease; }
 img { max-width: 100%; }
@@ -35,32 +33,21 @@ img { max-width: 100%; }
 .theme-modern .subtitle { font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: 2px; }
 
 /* =========================================
-   FIXED: PERFECT LOGO SIZING & ALIGNMENT
+   FIXED: LOGOS (BIGGER, LESS WHITE SPACE, NO SQUASH)
 ========================================= */
-/* Reverted to natural padding boxes so logos are never squashed or cropped */
-.logo-wrapper-nav { background: var(--white); padding: 8px 15px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; }
-#nav-logo-img { height: 45px !important; width: auto !important; max-width: 150px; display: block; mix-blend-mode: multiply; }
+.logo-wrapper-nav { background: var(--white); border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; padding: 3px 8px; height: 55px; }
+#nav-logo-img { height: 49px !important; width: auto !important; display: block; mix-blend-mode: multiply; }
 
-.logo-wrapper-footer { background: var(--white); padding: 20px 35px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 0 40px rgba(198,168,124,0.1); }
+.logo-wrapper-footer { background: var(--white); border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; padding: 5px 15px; height: 90px; box-shadow: 0 0 40px rgba(198,168,124,0.1); }
 .footer-logo { height: 80px !important; width: auto !important; display: block; mix-blend-mode: multiply; }
 
-/* =========================================
-   FIXED: MAROON SMOOTH TRANSITION OVERLAY
-========================================= */
-.transition-overlay { 
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-    background: var(--maroon); /* Restored Maroon Color */
-    z-index: 999999; display: flex; align-items: center; justify-content: center; 
-    clip-path: circle(0% at 50% 50%); transition: clip-path 0.7s cubic-bezier(0.77, 0, 0.175, 1); pointer-events: none; 
-}
-.transition-overlay.active { 
-    clip-path: circle(150% at 50% 50%); pointer-events: all; 
-    /* Gentle opacity fade failsafe that doesn't ruin the smooth JS wipe */
-    animation: failsafeFadeOut 0.5s ease 3.5s forwards; 
-}
-.transition-logo { width: 180px !important; height: auto !important; opacity: 0; transition: opacity 0.3s; animation: flashLogo 0.8s alternate infinite ease-in-out; }.transition-overlay.active .transition-logo { opacity: 1; }
+/* PAGE TRANSITION OVERLAY */
+.transition-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--maroon); z-index: 999999; display: flex; align-items: center; justify-content: center; clip-path: circle(0% at 50% 50%); transition: clip-path 0.7s cubic-bezier(0.77, 0, 0.175, 1); pointer-events: none; }
+.transition-overlay.active { clip-path: circle(150% at 50% 50%); pointer-events: all; animation: failsafeFadeOut 0.5s ease 3.5s forwards; }
+.transition-logo { width: 180px !important; height: auto !important; opacity: 0; transition: opacity 0.3s; animation: flashLogo 0.8s alternate infinite ease-in-out; }
+.transition-overlay.active .transition-logo { opacity: 1; }
 @keyframes flashLogo { 0% { opacity: 0.1; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1.05); } }
-@keyframes failsafeFadeOut { to { opacity: 0; pointer-events: none; visibility: hidden; } }
+@keyframes failsafeFadeOut { to { opacity: 0; pointer-events: none; visibility: hidden; clip-path: circle(0% at 50% 50%); } }
 
 /* STAGGERED WAVE TEXT ANIMATION */
 .stagger-text { display: inline-flex; overflow: hidden; vertical-align: top; cursor: pointer; }
@@ -70,18 +57,24 @@ img { max-width: 100%; }
 .stagger-text:hover .char { transform: translateY(-100%); }
 
 /* =========================================
-   NAVIGATION (FIXED: ABSOLUTE POSITIONING)
+   FIXED: HEADER STAYS AT TOP AND SCROLLS AWAY
 ========================================= */
-/* This glues the header to the very top of the page, so it scrolls out of view naturally! */
-.luxury-nav { position: absolute; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; z-index: 9999; background: transparent; transition: 0.4s; }
-/* When scrolling, we remove any sticky/fixed behavior */
-.luxury-nav.scrolled { background: rgba(17, 17, 17, 0.98); box-shadow: 0 4px 20px rgba(0,0,0,0.5); padding: 10px 50px; }
+.luxury-nav, .luxury-nav.scrolled { 
+    position: relative !important; 
+    top: 0 !important; left: 0 !important; 
+    width: 100%; 
+    display: flex; justify-content: space-between; align-items: center; 
+    padding: 15px 50px; z-index: 9999; 
+    background: var(--darker) !important; 
+    box-shadow: none !important;
+    transform: none !important;
+}
 .nav-links { flex: 1; display: flex; align-items: center; }
 .nav-links.right { justify-content: flex-end; }
 .nav-links a { color: var(--white); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; font-weight: 600; margin: 0 15px; cursor: pointer; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 
 /* HERO SECTION */
-.hero-section { position: relative; height: 100vh; width: 100%; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.hero-section { position: relative; height: auto; min-height: calc(100vh - 85px); width: 100%; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center bottom; }
 .base-bg { z-index: 1; }
 .reveal-layer { z-index: 2; opacity: 0; pointer-events: none; transform: scale(1.15) translate(-1%, 3%); transition: opacity 0.6s ease; -webkit-mask-image: radial-gradient(circle var(--m-size, 0px) at var(--m-x, 50%) var(--m-y, 50%), black 20%, transparent 100%); mask-image: radial-gradient(circle var(--m-size, 0px) at var(--m-x, 50%) var(--m-y, 50%), black 20%, transparent 100%); filter: url(#liquid-filter); }
@@ -94,7 +87,7 @@ img { max-width: 100%; }
 @keyframes mountainFall { 0% { clip-path: polygon(0% 0%, 15% 0%, 30% 0%, 50% 0%, 75% 0%, 100% 0%, 100% 100%, 0% 100%); } 100% { clip-path: polygon(0% 100%, 15% 100%, 30% 100%, 50% 100%, 75% 100%, 100% 100%, 100% 100%, 0% 100%); } }
 
 .video-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 4; background: rgba(0,0,0,0.3); pointer-events: none; }
-.hero-content { position: relative; z-index: 10; text-align: center; color: #fff; pointer-events: none; margin-top: 60px; }
+.hero-content { position: relative; z-index: 10; text-align: center; color: #fff; pointer-events: none; }
 .hero-content h1 { color: var(--white) !important; text-shadow: 0 4px 15px rgba(0,0,0,0.6); font-size: 4.5rem; margin-bottom: 20px;}
 .hero-content h1, .hero-content .btn-gold { pointer-events: auto; }
 
@@ -137,17 +130,24 @@ img { max-width: 100%; }
 .btn-book-now .char::after { color: var(--white) !important; }
 .btn-gold-solid:disabled { background: #e0e0e0 !important; color: #a0a0a0 !important; border: 1px solid #d0d0d0; cursor: not-allowed !important; transform: none !important; box-shadow: none !important; pointer-events: none; }
 
-/* MASTER REVEAL BUTTON */
-.master-reveal-btn { position: absolute; bottom: 30px; left: 30px; z-index: 200; width: 65px; height: 65px; background: transparent; border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); border: 1px solid var(--gold); cursor: pointer; transition: 0.3s; }
-.master-reveal-btn img { width: 45px !important; height: 45px !important; filter: invert(1) grayscale(1) brightness(200%); mix-blend-mode: screen; }
-.master-reveal-btn:hover { background: rgba(255,255,255,0.3); transform: scale(1.05); }
+/* =========================================
+   FIXED: PERFECT GOLDEN OUTLINE LOGO (NO BLACK BOX)
+========================================= */
+.master-reveal-btn { position: absolute; bottom: 30px; left: 30px; z-index: 200; width: 65px; height: 65px; background: transparent; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold); cursor: pointer; transition: 0.3s; }
+.master-reveal-btn img { 
+    width: 40px !important; height: auto !important; 
+    /* This completely deletes the white background and paints the text/logo solid Gold */
+    filter: invert(1) sepia(1) saturate(10) hue-rotate(5deg) brightness(1.2) !important; 
+    mix-blend-mode: screen !important; 
+}
+.master-reveal-btn:hover { background: rgba(198,168,124,0.15); transform: scale(1.05); }
 
 /* RETURN TO TOP BUTTON */
 #scroll-top-btn { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--gold); color: var(--white); border: none; border-radius: 50%; font-size: 24px; cursor: pointer; z-index: 99999; box-shadow: 0 4px 15px rgba(0,0,0,0.3); opacity: 0; visibility: hidden; transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; }
 #scroll-top-btn.show { opacity: 1; visibility: visible; }
 #scroll-top-btn:hover { background: var(--darker); transform: translateY(-5px); }
 
-/* FIXED: SOCIAL ICONS */
+/* SOCIAL ICONS */
 .socials-tab { display: flex; gap: 15px; justify-content: center; margin-top: 25px; }
 .social-icon { display: flex !important; align-items: center !important; justify-content: center !important; width: 45px !important; height: 45px !important; border-radius: 50% !important; background: transparent; border: 1px solid var(--gold) !important; color: var(--gold) !important; transition: all 0.3s ease; padding: 0 !important; overflow: hidden !important; }
 .social-icon svg { width: 20px !important; height: 20px !important; fill: currentColor; margin: 0 !important; }
@@ -230,7 +230,7 @@ table.premium-table { width: 100%; min-width: 850px; border-collapse: collapse; 
 ========================================= */
 .full-page-footer {
     position: relative;
-    min-height: 40vh; /* SHORTER: So it doesn't push headings off screen */
+    min-height: 40vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -241,15 +241,7 @@ table.premium-table { width: 100%; min-width: 850px; border-collapse: collapse; 
     color: var(--white);
 }
 
-#footer-network {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    opacity: 0.6;
-}
+#footer-network { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.6; }
 
 .footer-grid-container {
     display: grid;
@@ -273,80 +265,48 @@ table.premium-table { width: 100%; min-width: 850px; border-collapse: collapse; 
 .node-bl { grid-column: 1; grid-row: 3; align-self: start; justify-self: end; text-align: right; }
 .node-br { grid-column: 3; grid-row: 3; align-self: start; justify-self: start; text-align: left; }
 
-.footer-center-node {
-    grid-column: 2;
-    grid-row: 2;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
+.footer-center-node { grid-column: 2; grid-row: 2; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
-.designer-tagline {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.6rem;
-    color: var(--gold);
-    letter-spacing: 2px;
-    margin-top: 30px;
-    text-shadow: 0 0 20px rgba(198,168,124,0.3);
-}
+.designer-tagline { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.6rem; color: var(--gold); letter-spacing: 2px; margin-top: 30px; text-shadow: 0 0 20px rgba(198,168,124,0.3); }
 
 .mini-socials { justify-content: flex-end; margin-top: 15px; }
 
 /* DESIGNER GOLDEN BORDER ON FOOTER COPYRIGHT */
-.footer-bottom-copyright {
-    width: 100%;
-    text-align: center;
-    padding: 20px 0;
-    margin-top: 40px;
-    color: #666;
-    font-size: 0.85rem;
-    position: relative;
-    z-index: 2;
-}
-.footer-bottom-copyright::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--gold) 0%, rgba(198,168,124,0.1) 50%, var(--gold) 100%);
-}
+.footer-bottom-copyright { width: 100%; text-align: center; padding: 20px 0; margin-top: 40px; color: #666; font-size: 0.85rem; position: relative; z-index: 2; }
+.footer-bottom-copyright::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--gold) 0%, rgba(198,168,124,0.1) 50%, var(--gold) 100%); }
+
 
 /* =========================================
    THE MASTER MOBILE RESPONSIVENESS FIX
 ========================================= */
 @media (max-width: 900px) {
-    html, body { overflow-x: hidden !important; width: 100% !important; max-width: 100vw !important; margin: 0; padding: 0; }
+    html, body { overflow-x: hidden !important; width: 100% !important; max-width: 100vw !important; margin: 0; padding: 0 !important; }
 
-    /* 1. Header: Absolute so it scrolls away naturally, never covering content! */
+    /* 1. Header: Relative so it sits at the top and scrolls out of view naturally! */
     .luxury-nav, .luxury-nav.scrolled { 
-        position: absolute !important; 
+        position: relative !important; 
         top: 0 !important; left: 0 !important; 
         width: 100vw !important; 
         background: var(--darker) !important; 
         padding: 15px 10px !important; 
         flex-direction: column; gap: 10px; 
         z-index: 99999 !important; 
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+        box-shadow: none !important;
         box-sizing: border-box !important;
+        transform: none !important;
     }
     .luxury-nav .nav-links { flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%; }
     .luxury-nav .nav-links a { margin: 0 5px; font-size: 0.75rem; text-shadow: none; color: var(--white) !important; }
     
     body { padding-top: 0 !important; }
     
-    /* Safely push non-hero headers down so absolute nav never covers them */
-    .page-header { padding-top: 140px !important; }
-    .b2b-header { padding: 160px 15px 40px !important; }
-    
     /* 2. Layouts */
-    .hero-section { height: auto !important; min-height: 100vh !important; padding: 160px 10px 40px !important; flex-direction: column; justify-content: center; }
-    .hero-content h1 { font-size: 2.2rem !important; line-height: 1.2; padding: 0; word-break: break-word; }
+    .hero-section { height: auto !important; min-height: 80vh !important; padding: 40px 10px !important; flex-direction: column; justify-content: center; margin-top: 0 !important; }
+    .hero-content h1 { font-size: 2.2rem !important; line-height: 1.2; padding: 0; word-break: break-word; margin-top: 0; }
     .page-content { margin-top: 0 !important; padding-top: 10px !important; }
-    .page-header { height: auto !important; min-height: 40vh !important; }
+    .page-header { height: auto !important; min-height: 40vh !important; padding: 40px 10px !important; }
     .page-content h1 { font-size: 2.2rem !important; line-height: 1.2; word-break: break-word; }
+    .b2b-header { padding: 60px 15px 40px !important; }
     .b2b-header h1 { font-size: 2rem !important; word-wrap: break-word; line-height: 1.2; }
 
     /* 3. Booking Bar */
@@ -364,10 +324,10 @@ table.premium-table { width: 100%; min-width: 850px; border-collapse: collapse; 
     .hotel-title-group { flex-direction: column; text-align: center; gap: 10px; }
     .hotel-title-group h3 { font-size: 1.6rem; word-break: break-word; }
 
-    /* 5. Contact Us Page (Safe Push Down) */
-    .main-heading { margin-top: 160px !important; position: relative !important; top: 0 !important; left: 0 !important; transform: none !important; text-align: center; font-size: 2.2rem !important; padding: 0 15px; }
-    .booking-split { min-height: auto !important; }
-    .booking-half { padding: 60px 15px 40px !important; width: 100% !important; min-width: 100% !important; box-sizing: border-box !important; }
+    /* 5. Contact Us Page */
+    .main-heading { margin-top: 40px !important; position: relative !important; top: 0 !important; left: 0 !important; transform: none !important; text-align: center; font-size: 2.2rem !important; padding: 0 15px; }
+    .booking-split { min-height: auto !important; padding-top: 0 !important;}
+    .booking-half { padding: 40px 15px !important; width: 100% !important; min-width: 100% !important; box-sizing: border-box !important; }
     .glass-card { padding: 30px 20px !important; width: 100% !important; box-sizing: border-box !important; }
     .contact-item { flex-direction: column !important; align-items: center !important; text-align: center !important; gap: 10px !important; margin-bottom: 20px !important; }
     .contact-item p { width: 100% !important; word-break: break-word; font-size: 0.9rem; }
@@ -394,4 +354,7 @@ table.premium-table { width: 100%; min-width: 850px; border-collapse: collapse; 
     .b2b-section { padding: 15px 10px !important; margin: 20px auto !important; width: 100% !important; box-sizing: border-box !important; overflow: hidden !important; }
     .b2b-table-wrapper { margin: 0 !important; padding: 0 !important; overflow-x: auto !important; width: 100% !important; -webkit-overflow-scrolling: touch; }
     table.premium-table { min-width: 800px !important; }
+    
+    /* REMOVES THE LOGO BUTTON ON MOBILE ENTIRELY SO IT NEVER BLOCKS THE SCREEN */
+    .master-reveal-btn { display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }
 }
