@@ -5,7 +5,6 @@ function initLuxuryInteractions() {
     const overlay = document.querySelector('.transition-overlay');
     if(overlay) { setTimeout(() => { overlay.classList.remove('active'); }, 100); }
 
-    // Normal Links
     const links = document.querySelectorAll('a[href]:not([href^="#"]):not([href^="mailto"]):not([href^="tel"]):not([target="_blank"])');
     links.forEach(link => {
         link.addEventListener('click', function(e) {
@@ -16,17 +15,13 @@ function initLuxuryInteractions() {
         });
     });
 
-    // ------------------------------------------
-    // DYNAMIC MULTI-STEP BOOKING LOGIC
-    // ------------------------------------------
     const bar = document.getElementById('main-booking-bar');
     const dynamicBtn = document.getElementById('dynamic-book-btn');
     const step1 = document.querySelector('.step-1');
     const step2 = document.querySelector('.step-2');
     
-    let bookingState = 0; // 0: Collapsed, 1: Dates, 2: Info
+    let bookingState = 0; 
 
-    // Validation Functions
     function validateStep1() {
         const ci = document.getElementById('checkin-input');
         const co = document.getElementById('checkout-input');
@@ -39,37 +34,26 @@ function initLuxuryInteractions() {
         const name = document.getElementById('guest-name');
         const phone = document.getElementById('guest-phone');
         if (name && phone && bookingState === 2) {
-            const cleanPhone = phone.value.replace(/\D/g, ''); // keep only numbers
+            const cleanPhone = phone.value.replace(/\D/g, ''); 
             dynamicBtn.disabled = !(name.value.trim().length > 0 && cleanPhone.length >= 10);
         }
     }
 
     if (dynamicBtn && bar) {
         dynamicBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
+            e.preventDefault(); e.stopPropagation();
 
             if (bookingState === 0) {
-                // Expand to Step 1
-                bar.classList.remove('collapsed');
-                bar.classList.add('expanded');
-                step1.style.display = 'flex';
-                dynamicBtn.innerText = 'NEXT';
-                dynamicBtn.disabled = true;
-                bookingState = 1;
-                validateStep1(); 
+                bar.classList.remove('collapsed'); bar.classList.add('expanded');
+                step1.style.display = 'flex'; dynamicBtn.innerText = 'NEXT'; dynamicBtn.disabled = true;
+                bookingState = 1; validateStep1(); 
             } 
             else if (bookingState === 1) {
-                // Move to Step 2
-                step1.style.display = 'none';
-                step2.style.display = 'flex';
-                dynamicBtn.innerText = 'MAKE RESERVATION';
-                dynamicBtn.disabled = true;
-                bookingState = 2;
-                validateStep2();
+                step1.style.display = 'none'; step2.style.display = 'flex';
+                dynamicBtn.innerText = 'MAKE RESERVATION'; dynamicBtn.disabled = true;
+                bookingState = 2; validateStep2();
             } 
             else if (bookingState === 2) {
-                // Submit Form via Email
                 const dest = document.getElementById('dest-select').value;
                 const checkIn = document.getElementById('checkin-input').value;
                 const checkOut = document.getElementById('checkout-input').value;
@@ -81,61 +65,44 @@ function initLuxuryInteractions() {
                 const body = `Hello\n\nI want to book a stay at ${dest} for the following dates :\n${checkIn} to ${checkOut}\n${guests}\n\nGuest Details:\nName: ${name}\nPhone: ${phone}\n\nPlease do let me know if the stay can be arranged.`;
                 
                 window.location.href = `mailto:${email}?subject=Booking Request for ${dest}&body=${encodeURIComponent(body)}`;
-                
-                // Optional: Flash transition overlay to confirm action
-                if(overlay) {
-                    overlay.classList.add('active');
-                    setTimeout(() => { overlay.classList.remove('active'); }, 1500);
-                }
+                if(overlay) { overlay.classList.add('active'); setTimeout(() => { overlay.classList.remove('active'); }, 1500); }
             }
         });
 
-        // Input listeners for Step 2 validation
         const nameInput = document.getElementById('guest-name');
         const phoneInput = document.getElementById('guest-phone');
         if (nameInput) nameInput.addEventListener('input', validateStep2);
         if (phoneInput) {
             phoneInput.addEventListener('input', (e) => {
-                e.target.value = e.target.value.replace(/\D/g, '').slice(0,10); // Force max 10 numeric digits
+                e.target.value = e.target.value.replace(/\D/g, '').slice(0,10); 
                 validateStep2();
             });
         }
     }
 
-    // Sub-page regular book buttons redirect to contact page
     const genericBookButtons = document.querySelectorAll('.btn-gold-solid');
     genericBookButtons.forEach(btn => {
         if(btn.id === 'dynamic-book-btn' || btn.classList.contains('get-directions')) return;
         btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation(); 
+            e.preventDefault(); e.stopPropagation(); 
             if(overlay) overlay.classList.add('active');
             setTimeout(() => { window.location.href = 'contact-booking.html'; }, 700);
         });
     });
 
-    // ==========================================
-    // 2. DYNAMIC LINKED CALENDARS (FLATPICKR)
-    // ==========================================
     if (typeof flatpickr !== 'undefined') {
         const checkinInput = document.getElementById('checkin-input');
         const checkoutInput = document.getElementById('checkout-input');
 
         if (checkinInput && checkoutInput) {
-            const checkoutPicker = flatpickr(checkoutInput, { 
-                altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today", disableMobile: "true",
-                onChange: function() { if (typeof validateStep1 === 'function') validateStep1(); }
-            });
+            const checkoutPicker = flatpickr(checkoutInput, { altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today", disableMobile: "true", onChange: function() { if (typeof validateStep1 === 'function') validateStep1(); } });
             flatpickr(checkinInput, {
                 altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today", disableMobile: "true",
                 onChange: function(selectedDates, dateStr, instance) {
                     if (selectedDates.length > 0) {
-                        const nextDay = new Date(selectedDates[0]);
-                        nextDay.setDate(nextDay.getDate() + 1);
+                        const nextDay = new Date(selectedDates[0]); nextDay.setDate(nextDay.getDate() + 1);
                         checkoutPicker.set('minDate', nextDay);
-                        if (checkoutPicker.selectedDates.length > 0 && checkoutPicker.selectedDates[0] <= selectedDates[0]) {
-                            checkoutPicker.clear();
-                        }
+                        if (checkoutPicker.selectedDates.length > 0 && checkoutPicker.selectedDates[0] <= selectedDates[0]) { checkoutPicker.clear(); }
                     }
                     if (typeof validateStep1 === 'function') validateStep1();
                 }
@@ -145,35 +112,24 @@ function initLuxuryInteractions() {
         }
     }
 
-    // ==========================================
-    // 3. STAGGERED WAVE TEXT ANIMATION
-    // ==========================================
     const staggerElements = document.querySelectorAll('.stagger-text');
     staggerElements.forEach(el => {
         if (el.classList.contains('stagger-initialized')) return;
-        const text = el.innerText;
-        el.innerText = ''; 
+        const text = el.innerText; el.innerText = ''; 
         text.split('').forEach((char, i) => {
-            const wrap = document.createElement('span');
-            wrap.className = 'char-wrap';
-            const charSpan = document.createElement('span');
-            charSpan.className = 'char';
+            const wrap = document.createElement('span'); wrap.className = 'char-wrap';
+            const charSpan = document.createElement('span'); charSpan.className = 'char';
             charSpan.innerText = char === ' ' ? '\u00A0' : char; 
             charSpan.setAttribute('data-char', char === ' ' ? '\u00A0' : char);
             charSpan.style.setProperty('--char-index', i);
-            wrap.appendChild(charSpan);
-            el.appendChild(wrap);
+            wrap.appendChild(charSpan); el.appendChild(wrap);
         });
         el.classList.add('stagger-initialized');
     });
 
-    // ==========================================
-    // 4. RETURN TO TOP BUTTON INJECTION
-    // ==========================================
     if (!document.getElementById('scroll-top-btn')) {
         const scrollTopBtn = document.createElement('button');
-        scrollTopBtn.id = 'scroll-top-btn';
-        scrollTopBtn.innerHTML = '↑';
+        scrollTopBtn.id = 'scroll-top-btn'; scrollTopBtn.innerHTML = '↑';
         document.body.appendChild(scrollTopBtn);
 
         scrollTopBtn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
@@ -182,18 +138,89 @@ function initLuxuryInteractions() {
             else { scrollTopBtn.classList.remove('show'); }
         });
     }
+
+    // ==========================================
+    // 8. FOOTER ANIMATED NETWORK ENGINE
+    // ==========================================
+    const footerCanvas = document.getElementById('footer-network');
+    if (footerCanvas) {
+        const fctx = footerCanvas.getContext('2d');
+        let fParticles = [];
+        
+        function resizeFooter() {
+            footerCanvas.width = footerCanvas.parentElement.offsetWidth;
+            footerCanvas.height = footerCanvas.parentElement.offsetHeight;
+        }
+        window.addEventListener('resize', resizeFooter);
+        resizeFooter();
+
+        class FooterNode {
+            constructor() {
+                this.x = Math.random() * footerCanvas.width;
+                this.y = Math.random() * footerCanvas.height;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.radius = Math.random() * 1.5 + 0.5;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if(this.x < 0 || this.x > footerCanvas.width) this.vx *= -1;
+                if(this.y < 0 || this.y > footerCanvas.height) this.vy *= -1;
+            }
+            draw() {
+                fctx.beginPath();
+                fctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                fctx.fillStyle = '#C6A87C';
+                fctx.fill();
+            }
+        }
+
+        // Generate flow nodes
+        for(let i=0; i<80; i++) fParticles.push(new FooterNode());
+
+        function animateFooter() {
+            fctx.clearRect(0, 0, footerCanvas.width, footerCanvas.height);
+            
+            for(let i=0; i<fParticles.length; i++) {
+                fParticles[i].update();
+                fParticles[i].draw();
+                
+                // Draw connecting flow lines
+                for(let j = i + 1; j < fParticles.length; j++) {
+                    const dx = fParticles[i].x - fParticles[j].x;
+                    const dy = fParticles[i].y - fParticles[j].y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    
+                    if(dist < 120) {
+                        fctx.beginPath();
+                        fctx.strokeStyle = `rgba(198, 168, 124, ${1 - dist/120})`;
+                        fctx.lineWidth = 0.5;
+                        fctx.moveTo(fParticles[i].x, fParticles[i].y);
+                        fctx.lineTo(fParticles[j].x, fParticles[j].y);
+                        fctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateFooter);
+        }
+        animateFooter();
+    }
 }
 
-// Ensure interactions load reliably
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initLuxuryInteractions);
 } else {
     initLuxuryInteractions();
 }
 
-// ==========================================
-// 5. MODAL (ROOM EXPANSION) LOGIC
-// ==========================================
+const navbar = document.getElementById('luxury-nav');
+if (navbar) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) { navbar.classList.add('scrolled'); } else { navbar.classList.remove('scrolled'); }
+    });
+}
+
 const roomCards = document.querySelectorAll('.room-card');
 const closeButtons = document.querySelectorAll('.close-modal');
 const modals = document.querySelectorAll('.modal-overlay');
@@ -226,9 +253,6 @@ modals.forEach(modal => {
     });
 });
 
-// ==========================================
-// 6. LIQUID CURSOR & MOUNTAIN REVEAL
-// ==========================================
 const hero = document.getElementById('home-hero');
 const layer = document.getElementById('reveal-layer');
 const mountainLayer = document.getElementById('mountain-layer');
@@ -264,9 +288,6 @@ if (hero && layer && mountainLayer && mBtn) {
     updateLiquid();
 }
 
-// ==========================================
-// 7. CANVAS SNOWFALL ANIMATION
-// ==========================================
 const canvas = document.getElementById('hero-canvas');
 if (canvas) {
     const ctx = canvas.getContext('2d');
