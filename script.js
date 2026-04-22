@@ -71,7 +71,10 @@ function initLuxuryInteractions() {
                 altFormat: "F j, Y", 
                 dateFormat: "Y-m-d", 
                 minDate: tomorrowDate,
-                disabledDates: []
+                disabledDates: [],
+                clickOpens: true,
+                allowInput: false,
+                mobile: false
             });
             
             flatpickr(checkinInput, {
@@ -79,6 +82,9 @@ function initLuxuryInteractions() {
                 altFormat: "F j, Y", 
                 dateFormat: "Y-m-d", 
                 minDate: "today",
+                clickOpens: true,
+                allowInput: false,
+                mobile: false,
                 onChange: function(selectedDates, dateStr, instance) {
                     if (selectedDates.length > 0) {
                         // Set checkout minDate to day after check-in
@@ -94,7 +100,7 @@ function initLuxuryInteractions() {
                 }
             });
         } else {
-            flatpickr("input[type=date]", { altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today" });
+            flatpickr("input[type=date]", { altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today", clickOpens: true, allowInput: false, mobile: false });
         }
     }
 
