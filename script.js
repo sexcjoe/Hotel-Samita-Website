@@ -61,8 +61,29 @@ function initLuxuryInteractions() {
                 const name = document.getElementById('guest-name').value;
                 const phone = "+91 " + document.getElementById('guest-phone').value;
 
+                // ==========================================
+                // NEW: 7+ DAYS DURATION CALCULATION FOR EMAIL
+                // ==========================================
+                let durationText = "";
+                if(checkIn && checkOut) {
+                    const ciDate = new Date(checkIn);
+                    const coDate = new Date(checkOut);
+                    if(!isNaN(ciDate) && !isNaN(coDate)) {
+                        // Calculate difference in days
+                        const diffDays = Math.ceil((coDate - ciDate) / (1000 * 60 * 60 * 24));
+                        
+                        if(diffDays > 7) {
+                            // If more than 7 days, tag it specially
+                            durationText = `\nDuration: 7+ days (${diffDays} days)`;
+                        } else if(diffDays > 0) {
+                            // Normal stay formatting
+                            durationText = `\nDuration: ${diffDays} days`;
+                        }
+                    }
+                }
+
                 const email = dest === "The Samita Grand" ? "hotelsamitagrand@gmail.com" : "newsamitagrand@gmail.com";
-                const body = `Hello\n\nI want to book a stay at ${dest} for the following dates :\n${checkIn} to ${checkOut}\n${guests}\n\nGuest Details:\nName: ${name}\nPhone: ${phone}\n\nPlease do let me know if the stay can be arranged.`;
+                const body = `Hello\n\nI want to book a stay at ${dest} for the following dates :\n${checkIn} to ${checkOut}${durationText}\n${guests}\n\nGuest Details:\nName: ${name}\nPhone: ${phone}\n\nPlease do let me know if the stay can be arranged.`;
                 
                 window.location.href = `mailto:${email}?subject=Booking Request for ${dest}&body=${encodeURIComponent(body)}`;
                 if(overlay) { overlay.classList.add('active'); setTimeout(() => { overlay.classList.remove('active'); }, 1500); }
@@ -90,25 +111,55 @@ function initLuxuryInteractions() {
         });
     });
 
+    // ==========================================
+    // 2. DYNAMIC LINKED CALENDARS (FLATPICKR)
+    // ==========================================
     if (typeof flatpickr !== 'undefined') {
         const checkinInput = document.getElementById('checkin-input');
         const checkoutInput = document.getElementById('checkout-input');
 
+        // NEW: Calculate exactly 6 months from today for the maximum allowed check-in date
+        const maxBookingDate = new Date();
+        maxBookingDate.setMonth(maxBookingDate.getMonth() + 6);
+
         if (checkinInput && checkoutInput) {
-            const checkoutPicker = flatpickr(checkoutInput, { altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today", disableMobile: "true", onChange: function() { if (typeof validateStep1 === 'function') validateStep1(); } });
+            const checkoutPicker = flatpickr(checkoutInput, { 
+                altInput: true, 
+                altFormat: "F j, Y", 
+                dateFormat: "Y-m-d", 
+                minDate: "today", 
+                disableMobile: "true", 
+                onChange: function() { if (typeof validateStep1 === 'function') validateStep1(); } 
+            });
+
             flatpickr(checkinInput, {
-                altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today", disableMobile: "true",
+                altInput: true, 
+                altFormat: "F j, Y", 
+                dateFormat: "Y-m-d", 
+                minDate: "today", 
+                maxDate: maxBookingDate, // <--- Check-in restricted to 6 months away
+                disableMobile: "true",
                 onChange: function(selectedDates, dateStr, instance) {
                     if (selectedDates.length > 0) {
-                        const nextDay = new Date(selectedDates[0]); nextDay.setDate(nextDay.getDate() + 1);
+                        const nextDay = new Date(selectedDates[0]); 
+                        nextDay.setDate(nextDay.getDate() + 1);
                         checkoutPicker.set('minDate', nextDay);
-                        if (checkoutPicker.selectedDates.length > 0 && checkoutPicker.selectedDates[0] <= selectedDates[0]) { checkoutPicker.clear(); }
+                        
+                        if (checkoutPicker.selectedDates.length > 0 && checkoutPicker.selectedDates[0] <= selectedDates[0]) { 
+                            checkoutPicker.clear(); 
+                        }
                     }
                     if (typeof validateStep1 === 'function') validateStep1();
                 }
             });
         } else {
-            flatpickr("input[type=date]", { altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today", disableMobile: "true" });
+            flatpickr("input[type=date]", { 
+                altInput: true, 
+                altFormat: "F j, Y", 
+                dateFormat: "Y-m-d", 
+                minDate: "today", 
+                disableMobile: "true" 
+            });
         }
     }
 
@@ -212,7 +263,6 @@ if (document.readyState === 'loading') {
 // ==========================================
 // 5. MODAL LOGIC (ROOM CARDS AND B2B TABLE LINKS)
 // ==========================================
-// This targets the cards and the new B2B table links
 const modalTriggers = document.querySelectorAll('.room-card, [data-modal]');
 const closeButtons = document.querySelectorAll('.close-modal');
 const modals = document.querySelectorAll('.modal-overlay');
