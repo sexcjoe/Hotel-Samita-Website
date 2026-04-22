@@ -4,12 +4,8 @@
 function initLuxuryInteractions() {
     const overlay = document.querySelector('.transition-overlay');
     
-    // Remove overlay with immediate fallback
     if(overlay) {
-        setTimeout(() => { 
-            overlay.classList.remove('active');
-            console.log('Overlay removed');
-        }, 100);
+        setTimeout(() => { overlay.classList.remove('active'); }, 100);
     }
 
     const links = document.querySelectorAll('a[href]:not([href^="#"]):not([href^="mailto"]):not([href^="tel"]):not([target="_blank"])');
@@ -62,37 +58,24 @@ function initLuxuryInteractions() {
         const checkoutInput = document.getElementById('checkout-input');
 
         if (checkinInput && checkoutInput) {
-            // Set minimum checkout date to tomorrow initially (must be after check-in)
-            const tomorrowDate = new Date();
-            tomorrowDate.setDate(tomorrowDate.getDate() + 1);
-            
             const checkoutPicker = flatpickr(checkoutInput, { 
                 altInput: true, 
                 altFormat: "F j, Y", 
                 dateFormat: "Y-m-d", 
-                minDate: tomorrowDate,
-                disabledDates: [],
-                clickOpens: true,
-                allowInput: false,
-                mobile: false
+                minDate: "today",
+                disableMobile: "true" /* FIXED: Forces custom calendar on iPhone */
             });
-            
             flatpickr(checkinInput, {
                 altInput: true, 
                 altFormat: "F j, Y", 
                 dateFormat: "Y-m-d", 
                 minDate: "today",
-                clickOpens: true,
-                allowInput: false,
-                mobile: false,
+                disableMobile: "true", /* FIXED: Forces custom calendar on iPhone */
                 onChange: function(selectedDates, dateStr, instance) {
                     if (selectedDates.length > 0) {
-                        // Set checkout minDate to day after check-in
                         const nextDay = new Date(selectedDates[0]);
                         nextDay.setDate(nextDay.getDate() + 1);
                         checkoutPicker.set('minDate', nextDay);
-                        
-                        // If checkout was already selected to a date on or before check-in, clear it
                         if (checkoutPicker.selectedDates.length > 0 && checkoutPicker.selectedDates[0] <= selectedDates[0]) {
                             checkoutPicker.clear();
                         }
@@ -100,7 +83,13 @@ function initLuxuryInteractions() {
                 }
             });
         } else {
-            flatpickr("input[type=date]", { altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today", clickOpens: true, allowInput: false, mobile: false });
+            flatpickr("input[type=date]", { 
+                altInput: true, 
+                altFormat: "F j, Y", 
+                dateFormat: "Y-m-d", 
+                minDate: "today",
+                disableMobile: "true" /* FIXED: Forces custom calendar on iPhone */
+            });
         }
     }
 
@@ -147,59 +136,49 @@ function initLuxuryInteractions() {
             }
         });
     }
-
-    // ==========================================
-    // 5. MODAL (ROOM EXPANSION) LOGIC
-    // ==========================================
-    const roomCards = document.querySelectorAll('.room-card');
-    const closeButtons = document.querySelectorAll('.close-modal');
-    const modals = document.querySelectorAll('.modal-overlay');
-
-    roomCards.forEach(card => {
-        card.addEventListener('click', function(e) {
-            if(e.target.classList.contains('btn-book-now') || e.target.tagName.toLowerCase() === 'a') return; 
-            const modalId = this.getAttribute('data-modal');
-            const targetModal = document.getElementById(modalId);
-            if (targetModal) {
-                targetModal.classList.add('active');
-                document.body.style.overflow = 'hidden'; 
-            }
-        });
-    });
-
-    closeButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            this.closest('.modal-overlay').classList.remove('active');
-            document.body.style.overflow = 'auto'; 
-        });
-    });
-
-    modals.forEach(modal => {
-        modal.addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        });
-    });
-
-    // ==========================================
-    // 6. LUXURY NAVBAR SCROLL EFFECT
-    // ==========================================
-    const navbar = document.getElementById('luxury-nav');
-    if (navbar) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) { navbar.classList.add('scrolled'); } else { navbar.classList.remove('scrolled'); }
-        });
-    }
 }
 
-// Ensure interactions load reliably - call only once
+// Ensure interactions load reliably
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initLuxuryInteractions);
 } else {
     initLuxuryInteractions();
 }
+
+// ==========================================
+// 5. MODAL (ROOM EXPANSION) LOGIC
+// ==========================================
+const roomCards = document.querySelectorAll('.room-card');
+const closeButtons = document.querySelectorAll('.close-modal');
+const modals = document.querySelectorAll('.modal-overlay');
+
+roomCards.forEach(card => {
+    card.addEventListener('click', function(e) {
+        if(e.target.classList.contains('btn-book-now') || e.target.tagName.toLowerCase() === 'a') return; 
+        const modalId = this.getAttribute('data-modal');
+        const targetModal = document.getElementById(modalId);
+        if (targetModal) {
+            targetModal.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        }
+    });
+});
+
+closeButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+        this.closest('.modal-overlay').classList.remove('active');
+        document.body.style.overflow = 'auto'; 
+    });
+});
+
+modals.forEach(modal => {
+    modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    });
+});
 
 // ==========================================
 // 6. LIQUID CURSOR & MOUNTAIN REVEAL
