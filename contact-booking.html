@@ -8,9 +8,9 @@
     <title>Contact & Booking | The Samita Hotel Chain</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <style>
-        /* FIXED: Set the body background to dark so the white gap disappears */
-        body { background-color: var(--darker); }
+<style>
+        /* FIXED: Added padding to body to prevent overlap */
+        body { background-color: var(--darker); padding-top: 80px; }
         
         .booking-split { display: flex; flex-wrap: wrap; min-height: 100vh; background: var(--darker); color: var(--white); }
         .booking-half { flex: 1; min-width: 300px; padding: 150px 50px 80px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; }
@@ -43,20 +43,9 @@
         .contact-item a { color: #f0f0f0; text-decoration: none; transition: color 0.3s; font-weight: bold; letter-spacing: 0.5px;}
         .contact-item a:hover { color: var(--gold); }
         
-        .main-heading { position: absolute; top: 90px; left: 50%; transform: translateX(-50%); z-index: 10; font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--white); text-shadow: 0 4px 20px rgba(0,0,0,0.8); pointer-events: none;}
+        /* FIXED: Pushed heading down manually so it never hits the header */
+        .main-heading { position: absolute; top: 120px; left: 50%; transform: translateX(-50%); z-index: 10; font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--white); text-shadow: 0 4px 20px rgba(0,0,0,0.8); pointer-events: none;}
         .btn-directions { margin-top: 15px; width: 100%; text-align: center; display: block; }
-
-        /* =========================================
-           MOBILE OVERRIDES FOR CONTACT PAGE
-        ========================================= */
-        @media (max-width: 900px) {
-            /* FIXED: Reduced top margin from 120px to 40px so the gap is closed */
-            .main-heading { position: relative; top: 0; transform: none; left: 0; margin: 40px auto 20px; text-align: center; font-size: 2.2rem; padding: 0 20px; }
-            .booking-split { padding-top: 0; }
-            .btn-directions { width: auto; display: inline-block; padding: 12px 25px; font-size: 0.85rem; margin-top: 10px; }
-            .glass-card { text-align: center; }
-            .contact-item { flex-direction: row !important; align-items: center !important; text-align: left !important; }
-        }
     </style>
 </head>
 <body>
