@@ -58,8 +58,7 @@ img { max-width: 100%; }
     /* Gentle opacity fade failsafe that doesn't ruin the smooth JS wipe */
     animation: failsafeFadeOut 0.5s ease 3.5s forwards; 
 }
-.transition-logo { width: 180px !important; height: auto !important; opacity: 0; transition: opacity 0.3s; animation: flashLogo 0.8s alternate infinite ease-in-out; filter: brightness(200%) grayscale(1); mix-blend-mode: screen;}
-.transition-overlay.active .transition-logo { opacity: 1; }
+.transition-logo { width: 180px !important; height: auto !important; opacity: 0; transition: opacity 0.3s; animation: flashLogo 0.8s alternate infinite ease-in-out; }.transition-overlay.active .transition-logo { opacity: 1; }
 @keyframes flashLogo { 0% { opacity: 0.1; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1.05); } }
 @keyframes failsafeFadeOut { to { opacity: 0; pointer-events: none; visibility: hidden; } }
 
