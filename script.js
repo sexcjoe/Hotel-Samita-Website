@@ -143,7 +143,7 @@ function initLuxuryInteractions() {
     // 8. FOOTER ANIMATED NETWORK ENGINE
     // ==========================================
     const footerCanvas = document.getElementById('footer-network');
-    if (footerCanvas) {
+    if (footerCanvas && window.innerWidth > 900) {
         const fctx = footerCanvas.getContext('2d');
         let fParticles = [];
         
@@ -176,17 +176,12 @@ function initLuxuryInteractions() {
             }
         }
 
-        // Generate flow nodes
         for(let i=0; i<80; i++) fParticles.push(new FooterNode());
 
         function animateFooter() {
             fctx.clearRect(0, 0, footerCanvas.width, footerCanvas.height);
-            
             for(let i=0; i<fParticles.length; i++) {
-                fParticles[i].update();
-                fParticles[i].draw();
-                
-                // Draw connecting flow lines
+                fParticles[i].update(); fParticles[i].draw();
                 for(let j = i + 1; j < fParticles.length; j++) {
                     const dx = fParticles[i].x - fParticles[j].x;
                     const dy = fParticles[i].y - fParticles[j].y;
@@ -214,21 +209,21 @@ if (document.readyState === 'loading') {
     initLuxuryInteractions();
 }
 
-const navbar = document.getElementById('luxury-nav');
-if (navbar) {
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) { navbar.classList.add('scrolled'); } else { navbar.classList.remove('scrolled'); }
-    });
-}
-
-const roomCards = document.querySelectorAll('.room-card');
+// ==========================================
+// 5. MODAL LOGIC (ROOM CARDS AND B2B TABLE LINKS)
+// ==========================================
+// This targets the cards and the new B2B table links
+const modalTriggers = document.querySelectorAll('.room-card, [data-modal]');
 const closeButtons = document.querySelectorAll('.close-modal');
 const modals = document.querySelectorAll('.modal-overlay');
 
-roomCards.forEach(card => {
-    card.addEventListener('click', function(e) {
-        if(e.target.classList.contains('btn-book-now') || e.target.tagName.toLowerCase() === 'a') return; 
-        const modalId = this.getAttribute('data-modal');
+modalTriggers.forEach(trigger => {
+    trigger.addEventListener('click', function(e) {
+        if(e.target.classList.contains('btn-book-now') || (e.target.tagName.toLowerCase() === 'a' && !e.target.hasAttribute('data-modal'))) return; 
+        
+        const modalId = this.getAttribute('data-modal') || e.target.getAttribute('data-modal');
+        if(!modalId) return;
+
         const targetModal = document.getElementById(modalId);
         if (targetModal) {
             targetModal.classList.add('active');
@@ -253,6 +248,9 @@ modals.forEach(modal => {
     });
 });
 
+// ==========================================
+// 6. LIQUID CURSOR & MOUNTAIN REVEAL
+// ==========================================
 const hero = document.getElementById('home-hero');
 const layer = document.getElementById('reveal-layer');
 const mountainLayer = document.getElementById('mountain-layer');
