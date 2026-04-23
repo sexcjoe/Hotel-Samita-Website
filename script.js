@@ -35,7 +35,11 @@ function initLuxuryInteractions() {
         const phone = document.getElementById('guest-phone');
         if (name && phone && bookingState === 2) {
             const cleanPhone = phone.value.replace(/\D/g, ''); 
-            dynamicBtn.disabled = !(name.value.trim().length > 0 && cleanPhone.length >= 10);
+            
+            // STRICT VALIDATION: Must be exactly 10 digits AND start with 6, 7, 8, or 9
+            const isValidPhone = /^[6-9]\d{9}$/.test(cleanPhone);
+            
+            dynamicBtn.disabled = !(name.value.trim().length > 0 && isValidPhone);
         }
     }
 
@@ -61,24 +65,14 @@ function initLuxuryInteractions() {
                 const name = document.getElementById('guest-name').value;
                 const phone = "+91 " + document.getElementById('guest-phone').value;
 
-                // ==========================================
-                // NEW: 7+ DAYS DURATION CALCULATION FOR EMAIL
-                // ==========================================
                 let durationText = "";
                 if(checkIn && checkOut) {
                     const ciDate = new Date(checkIn);
                     const coDate = new Date(checkOut);
                     if(!isNaN(ciDate) && !isNaN(coDate)) {
-                        // Calculate difference in days
                         const diffDays = Math.ceil((coDate - ciDate) / (1000 * 60 * 60 * 24));
-                        
-                        if(diffDays > 7) {
-                            // If more than 7 days, tag it specially
-                            durationText = `\nDuration: 7+ days (${diffDays} days)`;
-                        } else if(diffDays > 0) {
-                            // Normal stay formatting
-                            durationText = `\nDuration: ${diffDays} days`;
-                        }
+                        if(diffDays > 7) { durationText = `\nDuration: 7+ days (${diffDays} days)`; } 
+                        else if(diffDays > 0) { durationText = `\nDuration: ${diffDays} days`; }
                     }
                 }
 
@@ -112,54 +106,34 @@ function initLuxuryInteractions() {
     });
 
     // ==========================================
-    // 2. DYNAMIC LINKED CALENDARS (FLATPICKR)
+    // 2. DYNAMIC LINKED CALENDARS
     // ==========================================
     if (typeof flatpickr !== 'undefined') {
         const checkinInput = document.getElementById('checkin-input');
         const checkoutInput = document.getElementById('checkout-input');
 
-        // NEW: Calculate exactly 6 months from today for the maximum allowed check-in date
         const maxBookingDate = new Date();
         maxBookingDate.setMonth(maxBookingDate.getMonth() + 6);
 
         if (checkinInput && checkoutInput) {
             const checkoutPicker = flatpickr(checkoutInput, { 
-                altInput: true, 
-                altFormat: "F j, Y", 
-                dateFormat: "Y-m-d", 
-                minDate: "today", 
-                disableMobile: "true", 
+                altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today", disableMobile: "true", 
                 onChange: function() { if (typeof validateStep1 === 'function') validateStep1(); } 
             });
 
             flatpickr(checkinInput, {
-                altInput: true, 
-                altFormat: "F j, Y", 
-                dateFormat: "Y-m-d", 
-                minDate: "today", 
-                maxDate: maxBookingDate, // <--- Check-in restricted to 6 months away
-                disableMobile: "true",
+                altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today", maxDate: maxBookingDate, disableMobile: "true",
                 onChange: function(selectedDates, dateStr, instance) {
                     if (selectedDates.length > 0) {
-                        const nextDay = new Date(selectedDates[0]); 
-                        nextDay.setDate(nextDay.getDate() + 1);
+                        const nextDay = new Date(selectedDates[0]); nextDay.setDate(nextDay.getDate() + 1);
                         checkoutPicker.set('minDate', nextDay);
-                        
-                        if (checkoutPicker.selectedDates.length > 0 && checkoutPicker.selectedDates[0] <= selectedDates[0]) { 
-                            checkoutPicker.clear(); 
-                        }
+                        if (checkoutPicker.selectedDates.length > 0 && checkoutPicker.selectedDates[0] <= selectedDates[0]) { checkoutPicker.clear(); }
                     }
                     if (typeof validateStep1 === 'function') validateStep1();
                 }
             });
         } else {
-            flatpickr("input[type=date]", { 
-                altInput: true, 
-                altFormat: "F j, Y", 
-                dateFormat: "Y-m-d", 
-                minDate: "today", 
-                disableMobile: "true" 
-            });
+            flatpickr("input[type=date]", { altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today", disableMobile: "true" });
         }
     }
 
@@ -207,23 +181,18 @@ function initLuxuryInteractions() {
 
         class FooterNode {
             constructor() {
-                this.x = Math.random() * footerCanvas.width;
-                this.y = Math.random() * footerCanvas.height;
-                this.vx = (Math.random() - 0.5) * 0.4;
-                this.vy = (Math.random() - 0.5) * 0.4;
+                this.x = Math.random() * footerCanvas.width; this.y = Math.random() * footerCanvas.height;
+                this.vx = (Math.random() - 0.5) * 0.4; this.vy = (Math.random() - 0.5) * 0.4;
                 this.radius = Math.random() * 1.5 + 0.5;
             }
             update() {
-                this.x += this.vx;
-                this.y += this.vy;
+                this.x += this.vx; this.y += this.vy;
                 if(this.x < 0 || this.x > footerCanvas.width) this.vx *= -1;
                 if(this.y < 0 || this.y > footerCanvas.height) this.vy *= -1;
             }
             draw() {
-                fctx.beginPath();
-                fctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                fctx.fillStyle = '#C6A87C';
-                fctx.fill();
+                fctx.beginPath(); fctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                fctx.fillStyle = '#C6A87C'; fctx.fill();
             }
         }
 
@@ -260,9 +229,6 @@ if (document.readyState === 'loading') {
     initLuxuryInteractions();
 }
 
-// ==========================================
-// 5. MODAL LOGIC (ROOM CARDS AND B2B TABLE LINKS)
-// ==========================================
 const modalTriggers = document.querySelectorAll('.room-card, [data-modal]');
 const closeButtons = document.querySelectorAll('.close-modal');
 const modals = document.querySelectorAll('.modal-overlay');
@@ -275,93 +241,86 @@ modalTriggers.forEach(trigger => {
         if(!modalId) return;
 
         const targetModal = document.getElementById(modalId);
-        if (targetModal) {
-            targetModal.classList.add('active');
-            document.body.style.overflow = 'hidden'; 
-        }
+        if (targetModal) { targetModal.classList.add('active'); document.body.style.overflow = 'hidden'; }
     });
 });
 
 closeButtons.forEach(btn => {
     btn.addEventListener('click', function() {
-        this.closest('.modal-overlay').classList.remove('active');
-        document.body.style.overflow = 'auto'; 
+        this.closest('.modal-overlay').classList.remove('active'); document.body.style.overflow = 'auto'; 
     });
 });
 
 modals.forEach(modal => {
     modal.addEventListener('click', function(e) {
-        if (e.target === this) {
-            this.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
+        if (e.target === this) { this.classList.remove('active'); document.body.style.overflow = 'auto'; }
     });
 });
 
 // ==========================================
-// 6. LIQUID CURSOR & MOUNTAIN REVEAL
+// 6. LANDO NORRIS LIQUID MASK ENGINE (UPDATED)
 // ==========================================
 const hero = document.getElementById('home-hero');
 const layer = document.getElementById('reveal-layer');
-const mountainLayer = document.getElementById('mountain-layer');
-const mBtn = document.getElementById('master-reveal');
-window.isSnowFlurry = false; 
 
-if (hero && layer && mountainLayer && mBtn) {
-    let targetX = 0, targetY = 0, currentX = 0, currentY = 0, targetSize = 0, currentSize = 0, timer, isFull = false;
-
-    mBtn.addEventListener('mouseenter', () => { 
-        isFull = true; mountainLayer.classList.remove('closing'); mountainLayer.classList.add('active'); window.isSnowFlurry = true; 
-    });
+if (hero && layer) {
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let currentX = targetX;
+    let currentY = targetY;
+    let targetSize = 0;
+    let currentSize = 0;
     
-    mBtn.addEventListener('mouseleave', () => { 
-        isFull = false; mountainLayer.classList.remove('active'); mountainLayer.classList.add('closing'); window.isSnowFlurry = false; 
-    });
+    // NEW: Idle timer to detect when mouse stops moving
+    let idleTimer;
 
     hero.addEventListener('mousemove', (e) => {
-        targetX = e.clientX; targetY = e.clientY;
-        if(!isFull) { layer.classList.add('active'); targetSize = 200; }
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            targetSize = 300; 
-            setTimeout(() => { if(!isFull) { layer.classList.remove('active'); targetSize = 0; } }, 800);
-        }, 100);
+        const rect = hero.getBoundingClientRect();
+        targetX = e.clientX - rect.left;
+        targetY = e.clientY - rect.top;
+
+        // Reset the size to normal when moving
+        targetSize = 250; // Smaller base size!
+        
+        // Clear the old timer
+        clearTimeout(idleTimer);
+        
+        // Start a new timer: If no mouse move happens for 1000ms (1 sec), shrink the mask
+        idleTimer = setTimeout(() => {
+            targetSize = 0;
+        }, 1000);
+    });
+
+    hero.addEventListener('mouseenter', () => { targetSize = 250; });
+    hero.addEventListener('mouseleave', () => { 
+        targetSize = 0; 
+        clearTimeout(idleTimer); 
     });
 
     function updateLiquid() {
-        currentX += (targetX - currentX) * 0.1; currentY += (targetY - currentY) * 0.1; currentSize += (targetSize - currentSize) * 0.05;
-        layer.style.setProperty('--m-x', currentX + 'px'); layer.style.setProperty('--m-y', currentY + 'px'); layer.style.setProperty('--m-size', currentSize + 'px');
+        // Spring physics lag
+        currentX += (targetX - currentX) * 0.12;
+        currentY += (targetY - currentY) * 0.12;
+        
+        const velX = targetX - currentX;
+        const velY = targetY - currentY;
+        const speed = Math.sqrt(velX * velX + velY * velY);
+        
+        let dynamicTargetSize = targetSize;
+        if (targetSize > 0) {
+            // Expands slightly when moving fast, but capped lower so it stays smaller
+            dynamicTargetSize = targetSize + (speed * 1.2);
+            if (dynamicTargetSize > 400) dynamicTargetSize = 400; // Smaller max cap!
+        }
+        
+        // Smoothly transition sizes
+        currentSize += (dynamicTargetSize - currentSize) * 0.15;
+
+        layer.style.setProperty('--m-x', currentX + 'px');
+        layer.style.setProperty('--m-y', currentY + 'px');
+        layer.style.setProperty('--m-size', currentSize + 'px');
+        
         requestAnimationFrame(updateLiquid);
     }
     updateLiquid();
-}
-
-const canvas = document.getElementById('hero-canvas');
-if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    class Particle {
-        constructor() {
-            this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.size = Math.random() * 2 + 0.5;
-            this.speedX = (Math.random() - 0.5) * 0.5; this.baseSpeedY = Math.random() * 1 + 0.2; 
-            this.color = Math.random() > 0.8 ? '#C6A87C' : '#FFFFFF'; this.opacity = Math.random() * 0.8 + 0.2;
-        }
-        update() {
-            if (window.isSnowFlurry) { this.y += this.baseSpeedY * 5; this.x += this.speedX + (Math.sin(this.y * 0.02) * 3); } 
-            else { this.y += this.baseSpeedY; this.x += this.speedX; }
-            if (this.y > canvas.height) this.y = 0; if (this.x > canvas.width) this.x = 0; if (this.x < 0) this.x = canvas.width;
-        }
-        draw() {
-            ctx.globalAlpha = this.opacity; ctx.fillStyle = this.color;
-            ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-        }
-    }
-    function init() { particles = []; for (let i = 0; i < 150; i++) particles.push(new Particle()); }
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => { p.update(); p.draw(); });
-        requestAnimationFrame(animate);
-    }
-    window.addEventListener('resize', resize); resize(); init(); animate();
 }
