@@ -33,12 +33,24 @@ function initLuxuryInteractions() {
     function validateStep2() {
         const name = document.getElementById('guest-name');
         const phone = document.getElementById('guest-phone');
+        const phoneError = document.getElementById('phone-error');
+        
         if (name && phone && bookingState === 2) {
             const cleanPhone = phone.value.replace(/\D/g, ''); 
-            
-            // STRICT VALIDATION: Must be exactly 10 digits AND start with 6, 7, 8, or 9
             const isValidPhone = /^[6-9]\d{9}$/.test(cleanPhone);
             
+            // SMART ERROR DISPLAY LOGIC
+            if (phoneError) {
+                // If it's valid, or if the box is completely empty, hide the error
+                if (isValidPhone || cleanPhone.length === 0) {
+                    phoneError.style.display = 'none';
+                } 
+                // If they typed a full 10 digits but it's an invalid Indian number, show error
+                else if (cleanPhone.length === 10 && !isValidPhone) {
+                    phoneError.style.display = 'block';
+                }
+            }
+
             dynamicBtn.disabled = !(name.value.trim().length > 0 && isValidPhone);
         }
     }
@@ -92,6 +104,15 @@ function initLuxuryInteractions() {
                 e.target.value = e.target.value.replace(/\D/g, '').slice(0,10); 
                 validateStep2();
             });
+            // Show error if they click away from the box and haven't finished typing 10 digits
+            phoneInput.addEventListener('blur', (e) => {
+                const cleanPhone = e.target.value.replace(/\D/g, '');
+                const isValidPhone = /^[6-9]\d{9}$/.test(cleanPhone);
+                const phoneError = document.getElementById('phone-error');
+                if (cleanPhone.length > 0 && !isValidPhone && phoneError) {
+                    phoneError.style.display = 'block';
+                }
+            });
         }
     }
 
@@ -106,7 +127,7 @@ function initLuxuryInteractions() {
     });
 
     // ==========================================
-    // 2. DYNAMIC LINKED CALENDARS
+    // 2. DYNAMIC LINKED CALENDARS (14 DAY LIMIT)
     // ==========================================
     if (typeof flatpickr !== 'undefined') {
         const checkinInput = document.getElementById('checkin-input');
@@ -125,9 +146,24 @@ function initLuxuryInteractions() {
                 altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d", minDate: "today", maxDate: maxBookingDate, disableMobile: "true",
                 onChange: function(selectedDates, dateStr, instance) {
                     if (selectedDates.length > 0) {
-                        const nextDay = new Date(selectedDates[0]); nextDay.setDate(nextDay.getDate() + 1);
+                        const nextDay = new Date(selectedDates[0]); 
+                        nextDay.setDate(nextDay.getDate() + 1);
+                        
+                        // Calculate exactly 14 days from check-in
+                        const maxStay = new Date(selectedDates[0]);
+                        maxStay.setDate(maxStay.getDate() + 14);
+
+                        // Set the dynamic limits on the checkout calendar
                         checkoutPicker.set('minDate', nextDay);
-                        if (checkoutPicker.selectedDates.length > 0 && checkoutPicker.selectedDates[0] <= selectedDates[0]) { checkoutPicker.clear(); }
+                        checkoutPicker.set('maxDate', maxStay);
+                        
+                        // Clear checkout if their old date violates the new 14-day limit
+                        if (checkoutPicker.selectedDates.length > 0) {
+                            const currentCheckOut = checkoutPicker.selectedDates[0];
+                            if (currentCheckOut <= selectedDates[0] || currentCheckOut > maxStay) { 
+                                checkoutPicker.clear(); 
+                            }
+                        }
                     }
                     if (typeof validateStep1 === 'function') validateStep1();
                 }
@@ -258,7 +294,7 @@ modals.forEach(modal => {
 });
 
 // ==========================================
-// 6. LANDO NORRIS LIQUID MASK ENGINE (UPDATED)
+// 6. LANDO NORRIS LIQUID MASK ENGINE
 // ==========================================
 const hero = document.getElementById('home-hero');
 const layer = document.getElementById('reveal-layer');
@@ -270,8 +306,6 @@ if (hero && layer) {
     let currentY = targetY;
     let targetSize = 0;
     let currentSize = 0;
-    
-    // NEW: Idle timer to detect when mouse stops moving
     let idleTimer;
 
     hero.addEventListener('mousemove', (e) => {
@@ -279,13 +313,10 @@ if (hero && layer) {
         targetX = e.clientX - rect.left;
         targetY = e.clientY - rect.top;
 
-        // Reset the size to normal when moving
-        targetSize = 250; // Smaller base size!
+        targetSize = 250; 
         
-        // Clear the old timer
         clearTimeout(idleTimer);
         
-        // Start a new timer: If no mouse move happens for 1000ms (1 sec), shrink the mask
         idleTimer = setTimeout(() => {
             targetSize = 0;
         }, 1000);
@@ -298,7 +329,6 @@ if (hero && layer) {
     });
 
     function updateLiquid() {
-        // Spring physics lag
         currentX += (targetX - currentX) * 0.12;
         currentY += (targetY - currentY) * 0.12;
         
@@ -308,12 +338,10 @@ if (hero && layer) {
         
         let dynamicTargetSize = targetSize;
         if (targetSize > 0) {
-            // Expands slightly when moving fast, but capped lower so it stays smaller
             dynamicTargetSize = targetSize + (speed * 1.2);
-            if (dynamicTargetSize > 400) dynamicTargetSize = 400; // Smaller max cap!
+            if (dynamicTargetSize > 400) dynamicTargetSize = 400; 
         }
         
-        // Smoothly transition sizes
         currentSize += (dynamicTargetSize - currentSize) * 0.15;
 
         layer.style.setProperty('--m-x', currentX + 'px');
