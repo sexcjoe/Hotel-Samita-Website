@@ -204,7 +204,7 @@ function initLuxuryInteractions() {
     // 8. FOOTER ANIMATED NETWORK ENGINE
     // ==========================================
     const footerCanvas = document.getElementById('footer-network');
-    if (footerCanvas && window.innerWidth > 900) {
+    if (footerCanvas) {
         const fctx = footerCanvas.getContext('2d');
         let fParticles = [];
         
@@ -232,7 +232,9 @@ function initLuxuryInteractions() {
             }
         }
 
-        for(let i=0; i<80; i++) fParticles.push(new FooterNode());
+// Creates 80 particles on desktop, but only 30 on mobile!
+let particleCount = window.innerWidth < 900 ? 30 : 80;
+for(let i=0; i<particleCount; i++) fParticles.push(new FooterNode());
 
         function animateFooter() {
             fctx.clearRect(0, 0, footerCanvas.width, footerCanvas.height);

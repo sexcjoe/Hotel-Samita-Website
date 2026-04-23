@@ -304,7 +304,6 @@ table.premium-table { width: 100%; min-width: 850px; border-collapse: collapse; 
 
     /* 7. Mobile Footer */
     .full-page-footer { padding: 40px 15px 0 !important; display: block !important; width: 100vw !important; box-sizing: border-box !important; }
-    #footer-network { display: none !important; } 
     .footer-grid-container { display: flex !important; flex-direction: column !important; gap: 30px !important; text-align: center !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
     .footer-node { text-align: center !important; width: 100% !important; }
     .footer-center-node { order: -1; margin-bottom: 10px !important; width: 100% !important; } 
