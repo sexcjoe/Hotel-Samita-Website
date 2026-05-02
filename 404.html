@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found | The Samita Hotel Chain</title>
+    
+    <link rel="icon" type="image/png" href="The%20Samita%20Hotel%20Chain%20logo.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base Luxury Reset (Mirrors styles.css) */
+        :root {
+            --gold: #C6A87C;
+            --gold-dark: #A88B60;
+            --dark: #1A1A1A;
+            --darker: #111111;
+            --cream: #FAFAFA;
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--darker);
+            color: var(--white);
+            font-family: 'Lato', sans-serif;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Subtle Animated Background */
+        .bg-pattern {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.15;
+            background-image: repeating-radial-gradient( circle at 0 0, transparent 0, var(--darker) 15px, transparent 15px, var(--gold) 16px, transparent 16px, transparent 30px );
+            z-index: 0;
+            animation: slowDrift 60s linear infinite;
+        }
+
+        @keyframes slowDrift {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        /* Central Content Container */
+        .error-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 600px;
+        }
+
+        .logo-box {
+            background: var(--white);
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 15px;
+            height: 70px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .logo-box img {
+            height: 60px;
+            width: auto;
+            mix-blend-mode: multiply;
+        }
+
+        /* The 404 Typography */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(6rem, 15vw, 10rem);
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(198,168,124,0.3);
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        /* The Gold Overlay Text inside the 404 */
+        h1::before {
+            content: '404';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            color: var(--gold);
+            -webkit-text-stroke: 0px;
+            clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0% 100%);
+            animation: waveReveal 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes waveReveal {
+            0% { clip-path: polygon(0 60%, 100% 40%, 100% 100%, 0% 100%); }
+            100% { clip-path: polygon(0 40%, 100% 60%, 100% 100%, 0% 100%); }
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--white);
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #aaa;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* Designer Return Button */
+        .btn-return {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 15px 40px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+        }
+
+        .btn-return:hover {
+            background: var(--gold);
+            color: var(--darker);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(198,168,124,0.2);
+        }
+
+        .btn-return span {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-return:hover span {
+            transform: translateX(-5px);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-pattern"></div>
+
+    <div class="error-container">
+        <a href="index.html" class="logo-box">
+            <img src="The%20Samita%20Hotel%20Chain%20logo.png" alt="The Samita Hotel Chain">
+        </a>
+        
+        <h1>404</h1>
+        <h2>Uncharted Territory</h2>
+        <p>It appears you have wandered off the trail. The room or experience you are looking for is currently unavailable or has been relocated.</p>
+        
+        <a href="index.html" class="btn-return">
+            <span>&larr;</span> Return to Lobby
+        </a>
+    </div>
+
+</body>
+</html>
