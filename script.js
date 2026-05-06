@@ -11,7 +11,7 @@ function initLuxuryInteractions() {
             e.preventDefault();
             const target = this.href;
             if(overlay) overlay.classList.add('active');
-            setTimeout(() => { window.location.href = target; }, 700);
+            setTimeout(() => { window.location.href = target; }, 1800);
         });
     });
 
@@ -259,6 +259,9 @@ for(let i=0; i<particleCount; i++) fParticles.push(new FooterNode());
         }
         animateFooter();
     }
+    
+    // CUSTOM LUXURY CURSOR
+    if (typeof initCustomCursor === 'function') initCustomCursor();
 }
 
 if (document.readyState === 'loading') {
@@ -353,4 +356,46 @@ if (hero && layer) {
         requestAnimationFrame(updateLiquid);
     }
     updateLiquid();
+}
+
+// ==========================================
+// 9. CUSTOM LUXURY CURSOR ENGINE
+// ==========================================
+function initCustomCursor() {
+    if (window.innerWidth < 901) return;
+
+    const cursorContainer = document.createElement('div');
+    cursorContainer.className = 'luxury-cursor-container';
+    
+    const triangle = document.createElement('div');
+    triangle.className = 'cursor-triangle';
+    
+    const snowflake = document.createElement('div');
+    snowflake.className = 'cursor-snowflake';
+    snowflake.innerHTML = '<span class="snowflake-inner">❄</span>';
+    
+    cursorContainer.appendChild(triangle);
+    cursorContainer.appendChild(snowflake);
+    document.body.appendChild(cursorContainer);
+
+    let mouseX = -100, mouseY = -100;
+    let curX = -100, curY = -100;
+
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    function updateCursor() {
+        // Instant position for the triangle
+        triangle.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%) rotate(-30deg)`;
+        
+        // Smooth lagging effect for the snowflake
+        curX += (mouseX - curX) * 0.12;
+        curY += (mouseY - curY) * 0.12;
+        snowflake.style.transform = `translate(${curX}px, ${curY}px)`;
+
+        requestAnimationFrame(updateCursor);
+    }
+    updateCursor();
 }
