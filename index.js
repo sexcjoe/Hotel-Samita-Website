@@ -10,7 +10,7 @@ if (samitaGrandBtn) {
     samitaGrandBtn.addEventListener('click', () => {
         const overlay = document.getElementById('samita-wipe-transition');
         if(overlay) overlay.classList.add('active', 'wipe-in');
-        setTimeout(() => { window.location.href = 'samita-grand.html'; }, 600);
+        setTimeout(() => { window.location.href = 'samita-grand.html'; }, 700);
     });
 }
 
@@ -18,7 +18,7 @@ if (newSamitaGrandBtn) {
     newSamitaGrandBtn.addEventListener('click', () => {
         const overlay = document.getElementById('samita-wipe-transition');
         if(overlay) overlay.classList.add('active', 'wipe-in');
-        setTimeout(() => { window.location.href = 'new-samita-grand.html'; }, 600);
+        setTimeout(() => { window.location.href = 'new-samita-grand.html'; }, 700);
     });
 }
 
@@ -78,7 +78,7 @@ bookNowButtons.forEach(button => {
         if(overlay) overlay.classList.add('active', 'wipe-in');
         
         // Redirect to booking page (replace with your actual booking link)
-        setTimeout(() => { window.location.href = 'contact-booking.html'; }, 600);
+        setTimeout(() => { window.location.href = 'contact-booking.html'; }, 700);
     });
 });
 

@@ -6,10 +6,10 @@ function initLuxuryInteractions() {
     
     // REVEAL LOGIC (On Page Load)
     if(overlay) {
-        overlay.classList.add('active', 'wipe-out');
+        // Note: 'active' and 'wipe-out' are now in HTML by default to prevent flashing
         setTimeout(() => {
             overlay.classList.remove('active', 'wipe-out');
-        }, 1200); // Wait for sweepUpOut (0.8s + 0.4s delay)
+        }, 1200); 
     }
 
     const links = document.querySelectorAll('a[href]:not([href^="#"]):not([href^="mailto"]):not([href^="tel"]):not([target="_blank"])');
@@ -21,8 +21,8 @@ function initLuxuryInteractions() {
                 overlay.classList.add('active', 'wipe-in');
             }
             
-            // Allow 600ms for sweepUpIn
-            setTimeout(() => { window.location.href = target; }, 600);
+            // Allow 700ms for sweepUpIn to lock
+            setTimeout(() => { window.location.href = target; }, 700);
         });
     });
 

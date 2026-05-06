@@ -61,6 +61,7 @@ img { max-width: 100%; }
 
 .samita-wipe-transition.active {
     visibility: visible;
+    transform: translateY(0); /* Ensure it covers the screen instantly when active */
 }
 
 /* The white pill container holding all three logos */
