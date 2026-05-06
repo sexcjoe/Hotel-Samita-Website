@@ -3,14 +3,23 @@
 // ==========================================
 function initLuxuryInteractions() {
     const overlay = document.querySelector('.transition-overlay');
+    const loader = document.querySelector('.morph-loader');
     
+    // Check if this is the first visit in this session
+    const isFirstVisit = !sessionStorage.getItem('samita_visited');
+    if (loader) {
+        if (isFirstVisit) {
+            loader.classList.add('long-story');
+            sessionStorage.setItem('samita_visited', 'true');
+        } else {
+            loader.classList.add('short-story');
+        }
+    }
+
     // REVEAL LOGIC
     if(overlay) {
-        // We trigger the reveal 300ms after load to allow a glimpse of the first icon 
-        // or to allow the transition to feel deliberate.
         setTimeout(() => {
             overlay.classList.add('revealing');
-            // Remove active class after the 1.2s door animation finishes
             setTimeout(() => {
                 overlay.classList.remove('active');
                 overlay.classList.remove('revealing');
@@ -27,8 +36,10 @@ function initLuxuryInteractions() {
                 overlay.classList.remove('revealing');
                 overlay.classList.add('active');
             }
-            // Navigate after 4.2s to show the full Cottage -> Hotel -> Dining -> Mountain -> Resort story
-            setTimeout(() => { window.location.href = target; }, 4200);
+            
+            // Dynamic timing based on the current story length
+            const navDelay = isFirstVisit ? 4200 : 2200;
+            setTimeout(() => { window.location.href = target; }, navDelay);
         });
     });
 
