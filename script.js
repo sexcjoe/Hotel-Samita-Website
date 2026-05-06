@@ -9,7 +9,7 @@ function initLuxuryInteractions() {
         // Note: 'active' and 'wipe-out' are now in HTML by default to prevent flashing
         setTimeout(() => {
             overlay.classList.remove('active', 'wipe-out');
-        }, 1200); 
+        }, 1500); 
     }
 
     const links = document.querySelectorAll('a[href]:not([href^="#"]):not([href^="mailto"]):not([href^="tel"]):not([target="_blank"])');
@@ -21,8 +21,8 @@ function initLuxuryInteractions() {
                 overlay.classList.add('active', 'wipe-in');
             }
             
-            // Allow 700ms for sweepUpIn to lock
-            setTimeout(() => { window.location.href = target; }, 700);
+            // Allow 800ms for sweepUpIn to lock
+            setTimeout(() => { window.location.href = target; }, 800);
         });
     });
 
@@ -132,8 +132,8 @@ function initLuxuryInteractions() {
         if(btn.id === 'dynamic-book-btn' || btn.classList.contains('get-directions')) return;
         btn.addEventListener('click', function(e) {
             e.preventDefault(); e.stopPropagation(); 
-            if(overlay) overlay.classList.add('active');
-            setTimeout(() => { window.location.href = 'contact-booking.html'; }, 700);
+            if(overlay) overlay.classList.add('active', 'wipe-in');
+            setTimeout(() => { window.location.href = 'contact-booking.html'; }, 800);
         });
     });
 

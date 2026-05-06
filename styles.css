@@ -115,13 +115,14 @@ img { max-width: 100%; }
 .samita-wipe-transition.wipe-out {
   pointer-events: auto;
   transform: translateY(0); 
-  animation: sweepUpOut 0.8s cubic-bezier(0.76, 0, 0.24, 1) 0.4s forwards;
+  animation: sweepUpOut 0.8s cubic-bezier(0.76, 0, 0.24, 1) 0.5s forwards;
 }
 
 .samita-wipe-transition.wipe-out .logo-cluster {
   opacity: 1;
   transform: scale(1);
-  animation: popOut 0.3s ease-in 0.2s forwards;
+  will-change: transform, opacity;
+  animation: popOut 0.3s ease-in 0.4s forwards;
 }
 
 /* Keyframes */
