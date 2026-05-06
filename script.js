@@ -3,14 +3,28 @@
 // ==========================================
 function initLuxuryInteractions() {
     const overlay = document.querySelector('.transition-overlay');
+    const loader = document.querySelector('.morph-loader');
     
-    // REVEAL LOGIC (On Page Load)
+    // Check if this is the first visit in this session
+    const isFirstVisit = !sessionStorage.getItem('samita_visited');
+    if (loader) {
+        if (isFirstVisit) {
+            loader.classList.add('long-story');
+            sessionStorage.setItem('samita_visited', 'true');
+        } else {
+            loader.classList.add('short-story');
+        }
+    }
+
+    // REVEAL LOGIC
     if(overlay) {
-        // The animation is handled by CSS (.active class)
-        // We just need to clean up after 3 seconds
         setTimeout(() => {
-            overlay.classList.remove('active');
-        }, 3000);
+            overlay.classList.add('revealing');
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                overlay.classList.remove('revealing');
+            }, 1200);
+        }, 300);
     }
 
     const links = document.querySelectorAll('a[href]:not([href^="#"]):not([href^="mailto"]):not([href^="tel"]):not([target="_blank"])');
@@ -19,11 +33,13 @@ function initLuxuryInteractions() {
             e.preventDefault();
             const target = this.href;
             if(overlay) {
+                overlay.classList.remove('revealing');
                 overlay.classList.add('active');
             }
             
-            // Allow 600ms for the "Curtain" to slide up and cover the screen (15% of 3s + buffer)
-            setTimeout(() => { window.location.href = target; }, 600);
+            // Dynamic timing based on the current story length
+            const navDelay = isFirstVisit ? 4200 : 2200;
+            setTimeout(() => { window.location.href = target; }, navDelay);
         });
     });
 
