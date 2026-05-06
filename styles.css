@@ -76,7 +76,7 @@ img { max-width: 100%; }
     position: absolute;
     fill: none;
     stroke: var(--white);
-    stroke-width: 1.5;
+    stroke-width: 12; /* BOLD FOR 512x512 VIEWBOX */
     stroke-linecap: round;
     stroke-linejoin: round;
     opacity: 0;
@@ -93,9 +93,9 @@ img { max-width: 100%; }
 .shape-mountain { animation: morphCycle 4s infinite 3.2s; }
 
 @keyframes morphCycle {
-    0% { opacity: 0; transform: scale(0.6) rotate(-10deg); filter: blur(10px); }
+    0% { opacity: 0; transform: scale(0.6) rotate(-10deg); filter: blur(5px); }
     15%, 35% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0px); }
-    50% { opacity: 0; transform: scale(1.2) rotate(10deg); filter: blur(10px); }
+    50% { opacity: 0; transform: scale(1.2) rotate(10deg); filter: blur(5px); }
     100% { opacity: 0; }
 }
 
