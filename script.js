@@ -3,15 +3,32 @@
 // ==========================================
 function initLuxuryInteractions() {
     const overlay = document.querySelector('.transition-overlay');
-    if(overlay) { setTimeout(() => { overlay.classList.remove('active'); }, 100); }
+    
+    // REVEAL LOGIC
+    if(overlay) {
+        // We trigger the reveal 300ms after load to allow a glimpse of the first icon 
+        // or to allow the transition to feel deliberate.
+        setTimeout(() => {
+            overlay.classList.add('revealing');
+            // Remove active class after the 1.2s door animation finishes
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                overlay.classList.remove('revealing');
+            }, 1200);
+        }, 300);
+    }
 
     const links = document.querySelectorAll('a[href]:not([href^="#"]):not([href^="mailto"]):not([href^="tel"]):not([target="_blank"])');
     links.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             const target = this.href;
-            if(overlay) overlay.classList.add('active');
-            setTimeout(() => { window.location.href = target; }, 1800);
+            if(overlay) {
+                overlay.classList.remove('revealing');
+                overlay.classList.add('active');
+            }
+            // Navigate after 4.2s to show the full Cottage -> Hotel -> Dining -> Mountain -> Resort story
+            setTimeout(() => { window.location.href = target; }, 4200);
         });
     });
 

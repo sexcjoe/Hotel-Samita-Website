@@ -33,33 +33,35 @@
 <svg style="visibility: hidden; position: absolute;" width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
     <defs>
         <filter id="luxury-goo">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
-            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="goo" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
             <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
         </filter>
     </defs>
 </svg>
 
-    <div class="transition-overlay active">
-        <div class="morph-loader">
-            <svg viewBox="0 0 512 512">
-                <!-- Detailed Cottage -->
-                <path class="morph-shape shape-cottage" d="M256 160l-128 96v160h64v-64h128v64h64V256l-128-96zm-32 192h-32v-32h32v32zm64 0h-32v-32h32v32zm32-96l-64-48-64 48V192l64-48 64 48v64z" />
-                <!-- Detailed Hotel -->
-                <path class="morph-shape shape-hotel" d="M128 480V128h256v352H128zM192 192h32v32h-32v-32zm0 64h32v32h-32v-32zm0 64h32v32h-32v-32zm64-128h32v32h-32v-32zm0 64h32v32h-32v-32zm0 64h32v32h-32v-32zm64-128h32v32h-32v-32zm0 64h32v32h-32v-32zm0 64h32v32h-32v-32z M64 480h400v-32H64v32z" />
-                <!-- Detailed Resort -->
-                <path class="morph-shape shape-resort" d="M32 480V64h128v64h192V64h128v416H32z M96 128h32v32H96v-32zm0 64h32v32H96v-32zm0 64h32v32H96v-32zm192-128h32v32h-32v-32zm0 64h32v32h-32v-32zm0 64h32v32h-32v-32zm128-128h32v32h-32v-32zm0 64h32v32h-32v-32zm0 64h32v32h-32v-32z" />
-                <!-- Detailed Dining -->
-                <path class="morph-shape shape-dining" d="M160 32v128c0 35.3 28.7 64 64 64h32V480h64V224h32c35.3 0 64-28.7 64-64V32h-32v128c0 17.7-14.3 32-32 32h-32V32h-32v128c0 17.7-14.3 32-32 32h-32V32h-32zm-32 352h-32V32H64v352H32c-17.7 0-32 14.3-32 32s14.3 32 32 32h128c17.7 0 32-14.3 32-32s-14.3-32-32-32z" />
-                <!-- Detailed Mountain -->
-                <path class="morph-shape shape-mountain" d="M0 480l128-320 64 96 96-160 128 320L512 480H0zM128 256c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64z" />
-            </svg>
-        </div>
+<div class="transition-overlay active">
+    <div class="overlay-door left"></div>
+    <div class="overlay-door right"></div>
+    <div class="morph-loader">
+        <svg viewBox="0 0 512 512">
+            <!-- Detailed Cottage -->
+            <path class="morph-shape shape-cottage" d="M256 160l-128 96v160h64v-64h128v64h64V256l-128-96zm-32 192h-32v-32h32v32zm64 0h-32v-32h32v32zm32-96l-64-48-64 48V192l64-48 64 48v64z" />
+            <!-- Detailed Hotel -->
+            <path class="morph-shape shape-hotel" d="M128 480V128h256v352H128zM192 192h32v32h-32v-32zm0 64h32v32h-32v-32zm0 64h32v32h-32v-32zm64-128h32v32h-32v-32zm0 64h32v32h-32v-32zm0 64h32v32h-32v-32zm64-128h32v32h-32v-32zm0 64h32v32h-32v-32zm0 64h32v32h-32v-32z M64 480h400v-32H64v32z" />
+            <!-- Detailed Dining -->
+            <path class="morph-shape shape-dining" d="M160 32v128c0 35.3 28.7 64 64 64h32V480h64V224h32c35.3 0 64-28.7 64-64V32h-32v128c0 17.7-14.3 32-32 32h-32V32h-32v128c0 17.7-14.3 32-32 32h-32V32h-32zm-32 352h-32V32H64v352H32c-17.7 0-32 14.3-32 32s14.3 32 32 32h128c17.7 0 32-14.3 32-32s-14.3-32-32-32z" />
+            <!-- Detailed Mountain -->
+            <path class="morph-shape shape-mountain" d="M0 480l128-320 64 96 96-160 128 320L512 480H0zM128 256c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64z" />
+            <!-- Detailed Resort with Split Doors -->
+            <g class="shape-resort-group">
+                <path class="resort-facade" d="M32 480V64h128v64h192V64h128v416H32z M224 480V300h64v180h-64z M96 128h32v32H96v-32zm0 64h32v32H96v-32zm0 64h32v32H96v-32zm192-128h32v32h-32v-32zm0 64h32v32h-32v-32zm0 64h32v32h-32v-32zm128-128h32v32h-32v-32zm0 64h32v32h-32v-32zm0 64h32v32h-32v-32z" fill="none" stroke="white" stroke-width="10" />
+                <path class="resort-door left-door" d="M224 480V300h32v180z" fill="none" stroke="white" stroke-width="10" />
+                <path class="resort-door right-door" d="M256 480V300h32v180z" fill="none" stroke="white" stroke-width="10" />
+            </g>
+        </svg>
     </div>
-                <path class="morph-shape shape-mountain" d="M2 20L12 4L22 20 M7 12L12 5L17 12" />
-            </svg>
-        </div>
-    </div>
+</div>
 
     <nav id="luxury-nav" class="luxury-nav">
         <div class="nav-links left">
