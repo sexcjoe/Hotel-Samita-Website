@@ -193,7 +193,16 @@ function initLuxuryInteractions() {
         scrollTopBtn.id = 'scroll-top-btn'; scrollTopBtn.innerHTML = '↑';
         document.body.appendChild(scrollTopBtn);
 
-        scrollTopBtn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+        scrollTopBtn.addEventListener('click', () => {
+            const scrollStep = -window.scrollY / (1500 / 15);
+            const scrollInterval = setInterval(() => {
+                if (window.scrollY !== 0) {
+                    window.scrollBy(0, scrollStep);
+                } else {
+                    clearInterval(scrollInterval);
+                }
+            }, 15);
+        });
         window.addEventListener('scroll', () => {
             if (window.scrollY > 300) { scrollTopBtn.classList.add('show'); } 
             else { scrollTopBtn.classList.remove('show'); }
