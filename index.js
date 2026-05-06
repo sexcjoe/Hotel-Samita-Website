@@ -8,13 +8,17 @@ const newSamitaGrandBtn = document.getElementById('btn-new-samita-grand');
 // Add click events to redirect users to the respective hotel pages
 if (samitaGrandBtn) {
     samitaGrandBtn.addEventListener('click', () => {
-        window.location.href = 'samita-grand.html'; 
+        const overlay = document.getElementById('samita-wipe-transition');
+        if(overlay) overlay.classList.add('active', 'wipe-in');
+        setTimeout(() => { window.location.href = 'samita-grand.html'; }, 600);
     });
 }
 
 if (newSamitaGrandBtn) {
     newSamitaGrandBtn.addEventListener('click', () => {
-        window.location.href = 'new-samita-grand.html';
+        const overlay = document.getElementById('samita-wipe-transition');
+        if(overlay) overlay.classList.add('active', 'wipe-in');
+        setTimeout(() => { window.location.href = 'new-samita-grand.html'; }, 600);
     });
 }
 
@@ -70,8 +74,11 @@ bookNowButtons.forEach(button => {
         // Stop the click from bubbling up to the room-card element
         event.stopPropagation(); 
         
+        const overlay = document.getElementById('samita-wipe-transition');
+        if(overlay) overlay.classList.add('active', 'wipe-in');
+        
         // Redirect to booking page (replace with your actual booking link)
-        window.location.href = 'contact-booking.html'; 
+        setTimeout(() => { window.location.href = 'contact-booking.html'; }, 600);
     });
 });
 

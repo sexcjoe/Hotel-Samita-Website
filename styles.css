@@ -41,109 +41,105 @@ img { max-width: 100%; }
 .footer-logo { height: 80px !important; width: auto !important; display: block; mix-blend-mode: multiply; }
 
 /* =========================================
-   FIXED: GRAND DOOR TRANSITION
+   SNAPPY WIPE TRANSITION (LANDO STYLE)
 ========================================= */
-.transition-overlay { 
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-    background: transparent; z-index: 999999; display: flex; align-items: center; justify-content: center; 
-    pointer-events: none; 
-    overflow: hidden;
+.samita-wipe-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #6C1924; /* Deep Samita Red */
+  z-index: 999999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(100%); 
+  pointer-events: none;
+  visibility: hidden;
 }
 
-.overlay-door {
-    position: absolute; top: 0; width: 50.5%; height: 100%;
-    background: var(--maroon);
-    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
-    z-index: 1;
-}
-.overlay-door.left { left: 0; transform: translateX(-100%); }
-.overlay-door.right { right: 0; transform: translateX(100%); }
-
-.transition-overlay.active .overlay-door.left { transform: translateX(0); }
-.transition-overlay.active .overlay-door.right { transform: translateX(0); }
-.transition-overlay.active { pointer-events: all; }
-
-/* REVEAL STATE */
-.transition-overlay.revealing .overlay-door.left { transform: translateX(-100%); }
-.transition-overlay.revealing .overlay-door.right { transform: translateX(100%); }
-
-/* MORPHING LOADER */
-.morph-loader {
-    width: 250px;
-    height: 250px;
-    color: var(--white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    filter: url('#luxury-goo');
-    z-index: 2;
-}
-.transition-overlay.active .morph-loader { opacity: 1; }
-
-.morph-loader svg {
-    width: 100%;
-    height: 100%;
+.samita-wipe-transition.active {
+    visibility: visible;
 }
 
-.morph-shape {
-    position: absolute;
-    fill: none;
-    stroke: var(--white);
-    stroke-width: 8; /* SHARPER LINES */
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    opacity: 0;
-    transform: scale(0.6);
-    transform-origin: center;
-    transition: all 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+/* The white pill container holding all three logos */
+.logo-cluster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  background-color: #ffffff;
+  padding: 20px 40px;
+  border-radius: 60px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transform: scale(0.8);
 }
 
-/* STORY SEQUENCES */
-
-/* 1. LONG STORY (First Visit) */
-.long-story .shape-cottage  { animation: morphCycleLong 5s infinite 0s; }
-.long-story .shape-hotel    { animation: morphCycleLong 5s infinite 1s; }
-.long-story .shape-dining   { animation: morphCycleLong 5s infinite 2s; }
-.long-story .shape-mountain { animation: morphCycleLong 5s infinite 3s; }
-.long-story .shape-resort-group { animation: morphCycleLong 5s infinite 4s; position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; opacity: 0; }
-
-@keyframes morphCycleLong {
-    0% { opacity: 0; transform: scale(0.6) rotate(-5deg); }
-    10%, 22% { opacity: 1; transform: scale(1) rotate(0deg); } /* Sharp display window */
-    30%, 100% { opacity: 0; transform: scale(1.1) rotate(5deg); }
+.wipe-logo {
+  height: 70px; 
+  width: auto;
+  object-fit: contain;
 }
 
-/* 2. SHORT STORY (Subsequent Clicks) */
-.short-story .shape-cottage { animation: morphCycleShort 2.5s infinite 0s; }
-.short-story .shape-hotel   { animation: morphCycleShort 2.5s infinite 0.8s; }
-.short-story .shape-resort-group { animation: morphCycleShort 2.5s infinite 1.6s; position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; opacity: 0; }
-.short-story .shape-dining, .short-story .shape-mountain { display: none !important; }
-
-@keyframes morphCycleShort {
-    0% { opacity: 0; transform: scale(0.6) rotate(-5deg); }
-    12%, 35% { opacity: 1; transform: scale(1) rotate(0deg); }
-    45%, 100% { opacity: 0; transform: scale(1.1) rotate(5deg); }
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .logo-cluster {
+    flex-direction: column;
+    border-radius: 30px;
+    padding: 30px;
+    gap: 20px;
+  }
+  .wipe-logo {
+    height: 50px;
+  }
 }
 
-/* RESORT SPECIAL REVEAL */
-.resort-door {
-    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-origin: center;
+/* --------------------------------------
+   ANIMATION: LEAVING THE PAGE
+--------------------------------------- */
+.samita-wipe-transition.wipe-in {
+  pointer-events: auto;
+  animation: sweepUpIn 0.6s cubic-bezier(0.76, 0, 0.24, 1) forwards;
 }
 
-.transition-overlay.revealing .left-door { transform: translateX(-30px) scaleX(0.2); opacity: 0.5; }
-.transition-overlay.revealing .right-door { transform: translateX(30px) scaleX(0.2); opacity: 0.5; }
-.transition-overlay.revealing .morph-loader { 
-    animation: resortExpand 1.2s forwards;
+.samita-wipe-transition.wipe-in .logo-cluster {
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s forwards;
 }
 
-@keyframes resortExpand {
-    0% { transform: scale(1); opacity: 1; filter: blur(0px); }
-    30% { transform: scale(1.4); opacity: 1; filter: blur(2px); }
-    100% { transform: scale(12); opacity: 0; filter: blur(10px); }
+/* --------------------------------------
+   ANIMATION: ENTERING THE NEW PAGE
+--------------------------------------- */
+.samita-wipe-transition.wipe-out {
+  pointer-events: auto;
+  transform: translateY(0); 
+  animation: sweepUpOut 0.8s cubic-bezier(0.76, 0, 0.24, 1) 0.4s forwards;
+}
+
+.samita-wipe-transition.wipe-out .logo-cluster {
+  opacity: 1;
+  transform: scale(1);
+  animation: popOut 0.3s ease-in 0.2s forwards;
+}
+
+/* Keyframes */
+@keyframes sweepUpIn {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes sweepUpOut {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-100%); }
+}
+
+@keyframes popIn {
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes popOut {
+  to { opacity: 0; transform: scale(0.8); }
 }
 
 /* ADDITIONAL REFINEMENT */

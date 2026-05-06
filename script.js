@@ -2,29 +2,14 @@
 // 1. PAGE TRANSITION & DYNAMIC BOOKING ENGINE
 // ==========================================
 function initLuxuryInteractions() {
-    const overlay = document.querySelector('.transition-overlay');
-    const loader = document.querySelector('.morph-loader');
+    const overlay = document.getElementById('samita-wipe-transition');
     
-    // Check if this is the first visit in this session
-    const isFirstVisit = !sessionStorage.getItem('samita_visited');
-    if (loader) {
-        if (isFirstVisit) {
-            loader.classList.add('long-story');
-            sessionStorage.setItem('samita_visited', 'true');
-        } else {
-            loader.classList.add('short-story');
-        }
-    }
-
-    // REVEAL LOGIC
+    // REVEAL LOGIC (On Page Load)
     if(overlay) {
+        overlay.classList.add('active', 'wipe-out');
         setTimeout(() => {
-            overlay.classList.add('revealing');
-            setTimeout(() => {
-                overlay.classList.remove('active');
-                overlay.classList.remove('revealing');
-            }, 1200);
-        }, 300);
+            overlay.classList.remove('active', 'wipe-out');
+        }, 1200); // Wait for sweepUpOut (0.8s + 0.4s delay)
     }
 
     const links = document.querySelectorAll('a[href]:not([href^="#"]):not([href^="mailto"]):not([href^="tel"]):not([target="_blank"])');
@@ -33,13 +18,11 @@ function initLuxuryInteractions() {
             e.preventDefault();
             const target = this.href;
             if(overlay) {
-                overlay.classList.remove('revealing');
-                overlay.classList.add('active');
+                overlay.classList.add('active', 'wipe-in');
             }
             
-            // Dynamic timing based on the current story length
-            const navDelay = isFirstVisit ? 4200 : 2200;
-            setTimeout(() => { window.location.href = target; }, navDelay);
+            // Allow 600ms for sweepUpIn
+            setTimeout(() => { window.location.href = target; }, 600);
         });
     });
 
