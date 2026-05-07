@@ -7,6 +7,10 @@
 
     <title>Contact & Booking | The Samita Hotel Chain</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Preload Transition Logos for Seamless continuity -->
+    <link rel="preload" as="image" href="The%20Samita%20Hotel%20Chain%20logo.png" fetchpriority="high">
+    <link rel="preload" as="image" href="The%20Samita%20Grand%20logo.png" fetchpriority="high">
+    <link rel="preload" as="image" href="The%20New%20Samita%20Grand%20logo.png" fetchpriority="high">
     <link rel="stylesheet" href="styles.css">
 <style>
         /* FIXED: Added padding to body to prevent overlap */
@@ -59,11 +63,11 @@
     </defs>
 </svg>
 
-<div id="samita-wipe-transition" class="samita-wipe-transition active wipe-out">
-  <div class="logo-cluster">
-    <img src="The%20Samita%20Hotel%20Chain%20logo.png" alt="The Samita Hotel Chain" class="wipe-logo" fetchpriority="high" decoding="sync" loading="eager">
-    <img src="The%20Samita%20Grand%20logo.png" alt="The Samita Grand" class="wipe-logo" fetchpriority="high" decoding="sync" loading="eager">
-    <img src="The%20New%20Samita%20Grand%20logo.png" alt="The New Samita Grand" class="wipe-logo" fetchpriority="high" decoding="sync" loading="eager">
+<div id="samita-wipe-transition" class="samita-wipe-transition active wipe-out" style="transform: translateY(0) translateZ(0); contain: paint;">
+  <div class="logo-cluster" style="opacity: 1; transform: scale(1);">
+    <img src="The%20Samita%20Hotel%20Chain%20logo.png" alt="The Samita Hotel Chain" class="wipe-logo" fetchpriority="high" decoding="sync" loading="eager" height="70">
+    <img src="The%20Samita%20Grand%20logo.png" alt="The Samita Grand" class="wipe-logo" fetchpriority="high" decoding="sync" loading="eager" height="70">
+    <img src="The%20New%20Samita%20Grand%20logo.png" alt="The New Samita Grand" class="wipe-logo" fetchpriority="high" decoding="sync" loading="eager" height="70">
   </div>
 </div>
     <nav id="luxury-nav" class="luxury-nav">

@@ -57,11 +57,14 @@ img { max-width: 100%; }
   transform: translateY(100%); 
   pointer-events: none;
   visibility: hidden;
+  contain: paint;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 .samita-wipe-transition.active {
     visibility: visible;
-    transform: translateY(0); /* Ensure it covers the screen instantly when active */
+    transform: translateY(0) translateZ(0); /* Force GPU */
 }
 
 /* The white pill container holding all three logos */
@@ -75,13 +78,14 @@ img { max-width: 100%; }
   border-radius: 60px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
   opacity: 0;
-  transform: scale(0.8);
+  transform: scale(0.8) translateZ(0);
 }
 
 .wipe-logo {
   height: 70px; 
   width: auto;
   object-fit: contain;
+  will-change: transform;
 }
 
 /* Mobile responsiveness */
@@ -114,13 +118,13 @@ img { max-width: 100%; }
 --------------------------------------- */
 .samita-wipe-transition.wipe-out {
   pointer-events: auto;
-  transform: translateY(0); 
+  transform: translateY(0) translateZ(0) !important; 
   animation: sweepUpOut 0.8s cubic-bezier(0.76, 0, 0.24, 1) 0.5s forwards;
 }
 
 .samita-wipe-transition.wipe-out .logo-cluster {
   opacity: 1;
-  transform: scale(1);
+  transform: scale(1) translateZ(0);
   will-change: transform, opacity;
   animation: popOut 0.3s ease-in 0.4s forwards;
 }
