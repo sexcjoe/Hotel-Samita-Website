@@ -67,22 +67,22 @@ img { max-width: 100%; }
     transform: translateY(0) translateZ(0); /* Force GPU */
 }
 
-/* The white pill container holding all three logos */
+/* The white pill container holding the transition image */
 .logo-cluster {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 30px;
   background-color: #ffffff;
   padding: 20px 40px;
   border-radius: 60px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
   opacity: 0;
   transform: scale(0.8) translateZ(0);
+  max-width: 90%;
 }
 
 .wipe-logo {
-  height: 70px; 
+  height: 80px; 
   width: auto;
   object-fit: contain;
   will-change: transform;
@@ -91,10 +91,8 @@ img { max-width: 100%; }
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .logo-cluster {
-    flex-direction: column;
     border-radius: 30px;
-    padding: 30px;
-    gap: 20px;
+    padding: 15px 25px;
   }
   .wipe-logo {
     height: 50px;
@@ -106,11 +104,11 @@ img { max-width: 100%; }
 --------------------------------------- */
 .samita-wipe-transition.wipe-in {
   pointer-events: auto;
-  animation: sweepUpIn 0.6s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+  animation: sweepUpIn 0.7s cubic-bezier(0.77, 0, 0.175, 1) forwards;
 }
 
 .samita-wipe-transition.wipe-in .logo-cluster {
-  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s forwards;
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s forwards;
 }
 
 /* --------------------------------------
@@ -119,14 +117,14 @@ img { max-width: 100%; }
 .samita-wipe-transition.wipe-out {
   pointer-events: auto;
   transform: translateY(0) translateZ(0); 
-  animation: sweepUpOut 0.8s cubic-bezier(0.76, 0, 0.24, 1) 0.5s forwards;
+  animation: sweepUpOut 0.6s cubic-bezier(0.77, 0, 0.175, 1) 0.6s forwards;
 }
 
 .samita-wipe-transition.wipe-out .logo-cluster {
   opacity: 1;
   transform: scale(1) translateZ(0);
   will-change: transform, opacity;
-  animation: popOut 0.3s ease-in 0.4s forwards;
+  animation: popOut 0.4s cubic-bezier(0.77, 0, 0.175, 1) 0.3s forwards;
 }
 
 /* Keyframes */
